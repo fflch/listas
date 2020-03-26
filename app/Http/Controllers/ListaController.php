@@ -124,6 +124,11 @@ class ListaController extends Controller
 
     public function updateMailman(Request $request, Lista $lista)
     {
+        if(empty($lista->url_mailman)){
+            $request->session()->flash('alert-danger', "Mailman não configurado nessa lista");
+
+            return redirect("/listas/$lista->id");
+        }
         $url = $lista->url_mailman . '/' . $lista->name;
         $mailman = new MailmanAPI($url,$lista->pass,false);
 

@@ -14,9 +14,11 @@
 
 <br>
 
+@if(!empty($lista->url_mailman))
 <div>
     <a href="{{action('ListaController@updateMailman', $lista->id)}}" class="btn btn-warning">Atualizar lista com emails do Replicado</a>
 </div>
+@endif
 
 
 <br>
