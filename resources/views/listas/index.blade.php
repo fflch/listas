@@ -7,28 +7,34 @@
 @section('content')
     @include('messages.flash')
     @include('messages.errors')
-
+<div>
 <a href="{{ route('listas.create') }}" class="btn btn-success">
     Adicionar lista
 </a>
-
+</div>
+<br>
 
 <div class="table-responsive">
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>name</th>
-                <th>description</th>
+                <th>Título da lista</th>
+                <th>Mailman?</th>
                 <th></th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach($listas as $lista)
+            @foreach($listas->sortBy('name') as $lista)
             <tr>
-                <td><a href="/listas/{{ $lista->id }}">{{ $lista->name }}</a></td>
-                <td>{{ $lista->description }}</td>
-
+                <td><a href="/listas/{{ $lista->id }}">{{ $lista->description }}</a></td>
+                <td>
+                    @if(empty($lista->url_mailman))
+                        não
+                    @else
+                        sim
+                    @endif
+                </td>
                 <td>
                     <a href="{{action('ListaController@edit', $lista->id)}}" class="btn btn-warning">Editar</a>
                 </td>

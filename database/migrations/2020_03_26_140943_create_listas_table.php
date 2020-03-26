@@ -16,11 +16,11 @@ class CreateListasTable extends Migration
         Schema::create('listas', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('url_mailman');
-            $table->string('name');
-            $table->string('pass');
+            $table->string('url_mailman')->nullable();
+            $table->string('name')->nullable();
+            $table->string('pass')->nullable();
+            $table->text('emails_allowed')->nullable();
             $table->text('description');
-            $table->text('emails_allowed');
             $table->text('replicado_query');
         });
 

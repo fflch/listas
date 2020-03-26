@@ -11,7 +11,7 @@
     @include('messages.flash')
     @include('messages.errors')
 
-    <div class="col-md-6">
+    <div class="col">
         <form method="post" action="{{ action('ListaController@update', $lista->id) }}">
             {{ csrf_field() }}
             {{ method_field('patch') }}

@@ -9,7 +9,8 @@ class IndexController extends Controller
 {
     public function index()
     {
-        $listas = Lista::all();
-        return view('index',compact('listas'));
+        $mailman = Lista::whereNotNull('url_mailman')->get();
+        $no_mailman = Lista::whereNull('url_mailman')->get();
+        return view('index',compact('no_mailman','mailman'));
     }
 }

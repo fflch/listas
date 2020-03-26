@@ -14,7 +14,6 @@ class ListaController extends Controller
         $this->middleware('can:admin');
     }
 
-
     /**
      * Display a listing of the resource.
      *
@@ -46,11 +45,7 @@ class ListaController extends Controller
     {
         // Validações
         $request->validate([
-            'name'            => 'required',
-            'url_mailman'     => 'required',
             'description'     => 'required',
-            'pass'            => 'required',
-            'emails_allowed'  => 'required',
             'replicado_query' => 'required',
         ]);
 
@@ -100,11 +95,7 @@ class ListaController extends Controller
     {
         // Validações
         $request->validate([
-            'name'            => 'required',
-            'url_mailman'     => 'required',
             'description'     => 'required',
-            'pass'            => 'required',
-            'emails_allowed'  => 'required',
             'replicado_query' => 'required',
         ]);
 
@@ -137,7 +128,7 @@ class ListaController extends Controller
         $mailman = new MailmanAPI($url,$lista->pass,false);
 
         /* Emails da lista */
-        $emails_mailman  = $mailman->getMemberlist();
+        $emails_mailman = $mailman->getMemberlist();
 
         /* Emails do replicado */
         $result = DB::fetchAll($lista->replicado_query);
@@ -162,4 +153,5 @@ class ListaController extends Controller
 
         return redirect("/listas/$lista->id");
     }
+
 }

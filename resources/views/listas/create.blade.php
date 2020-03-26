@@ -10,7 +10,7 @@
     @include('messages.flash')
     @include('messages.errors')
 
-        <div class="col-md-6">
+        <div class="col">
             <form method="post" action="{{ url('listas') }}">
                 {{ csrf_field() }}
                 @include('listas.form')

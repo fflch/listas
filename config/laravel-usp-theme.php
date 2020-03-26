@@ -16,6 +16,10 @@ return [
             'url'  => '/listas',
             'can'  => 'admin'
         ],
-
+        [
+            'text' => 'Pessoas Autorizadas',
+            'url'  => '/users',
+            'can'  => 'authorized'
+        ],
     ]
 ];
