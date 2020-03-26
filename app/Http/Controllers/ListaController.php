@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Lista;
 use Illuminate\Http\Request;
+use splattner\mailmanapi\MailmanAPI;
+use Uspdev\Replicado\DB;
 
 class ListaController extends Controller
 {
@@ -129,8 +131,35 @@ class ListaController extends Controller
         die("Not implemented");
     }
 
-    public function updateMailman(Lista $lista)
+    public function updateMailman(Request $request, Lista $lista)
     {
-      
+        $url = $lista->url_mailman . '/' . $lista->name;
+        $mailman = new MailmanAPI($url,$lista->pass,false);
+
+        /* Emails da lista */
+        $emails_mailman  = $mailman->getMemberlist();
+
+        /* Emails do replicado */
+        $result = DB::fetchAll($lista->replicado_query);
+        $emails_replicado = array_column($result, 'codema');
+        
+        /* Emails que estão no replicado, mas não na lista
+         * Serão inseridos na lista         
+         */
+        $to_add = array_diff($emails_replicado,$emails_mailman);
+
+        /* Emails que estão na lista, mas não no replicado
+         * Serão removidos na lista
+         */
+        $to_remove = array_diff($emails_mailman,$emails_replicado);
+
+        $mailman->removeMembers($to_remove);
+        $mailman->addMembers($to_add);
+
+        $request->session()->flash('alert-success', 
+            count($to_remove) . " emails removidos e " .
+            count($to_add) . " adicionados.");
+
+        return redirect("/listas/$lista->id");
     }
 }
