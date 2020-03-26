@@ -84,7 +84,7 @@ class ListaController extends Controller
      */
     public function edit(Lista $lista)
     {
-        die("Not implemented");
+       return view("listas/edit",compact('lista'));
     }
 
     /**
@@ -96,7 +96,26 @@ class ListaController extends Controller
      */
     public function update(Request $request, Lista $lista)
     {
-        die("Not implemented");
+        // Validações
+        $request->validate([
+            'name'            => 'required',
+            'url_mailman'     => 'required',
+            'description'     => 'required',
+            'pass'            => 'required',
+            'emails_allowed'  => 'required',
+            'replicado_query' => 'required',
+        ]);
+
+        $lista->name = $request->name;
+        $lista->url_mailman = $request->url_mailman;
+        $lista->description = $request->description;
+        $lista->pass = $request->pass;
+        $lista->emails_allowed = $request->emails_allowed;
+        $lista->replicado_query = $request->replicado_query;
+        $lista->save();
+
+        $request->session()->flash('alert-success', 'Lista atualizada com sucesso!');
+        return redirect()->route('listas.index');
     }
 
     /**
