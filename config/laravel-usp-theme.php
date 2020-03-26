@@ -11,5 +11,11 @@ return [
             'text' => 'Início',
             'url'  => '/',
         ],
+        [
+            'text' => 'Listas',
+            'url'  => '/listas',
+            'can'  => 'admin'
+        ],
+
     ]
 ];

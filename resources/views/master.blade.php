@@ -2,3 +2,6 @@
 
 @section('title') Listas @endsection
 
+@section('footer') Sistema de Listas FFLCH-USP @endsection
+
+
