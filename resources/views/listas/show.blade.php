@@ -11,6 +11,14 @@
 <div>
     <a href="{{action('ListaController@edit', $lista->id)}}" class="btn btn-success">Editar</a>
 </div>
+
+<br>
+
+<div>
+    <a href="{{action('ListaController@updateMailman', $lista->id)}}" class="btn btn-warning">Atualizar lista com emails do Replicado</a>
+</div>
+
+
 <br>
 
 <div class="card">

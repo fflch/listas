@@ -13,3 +13,6 @@ Route::get('/logout', 'Auth\LoginController@logout');
 
 /* resource listas model */
 Route::resource('/listas', 'ListaController');
+
+/* TODO: Mudar para POST */
+Route::get('/updateMailman/{lista}', 'ListaController@updateMailman');

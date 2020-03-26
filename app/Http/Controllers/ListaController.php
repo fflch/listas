@@ -128,4 +128,9 @@ class ListaController extends Controller
     {
         die("Not implemented");
     }
+
+    public function updateMailman(Lista $lista)
+    {
+      
+    }
 }
