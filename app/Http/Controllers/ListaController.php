@@ -6,6 +6,7 @@ use App\Lista;
 use Illuminate\Http\Request;
 use splattner\mailmanapi\MailmanAPI;
 use Uspdev\Replicado\DB;
+use Uspdev\Cache\Cache;
 
 class ListaController extends Controller
 {
@@ -136,7 +137,8 @@ class ListaController extends Controller
         $emails_mailman = $mailman->getMemberlist();
 
         /* Emails do replicado */
-        $result = DB::fetchAll($lista->replicado_query);
+        $cache = new Cache();
+        $result = $cache->getCached('\Uspdev\Replicado\DB::fetchAll',$lista->replicado_query);
         $emails_replicado = array_column($result, 'codema');
         
         /* Emails que estão no replicado, mas não na lista

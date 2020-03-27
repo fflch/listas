@@ -8,6 +8,7 @@ use App\User;
 use Uspdev\Replicado\Pessoa;
 use Uspdev\Replicado\DB;
 use App\Lista;
+use Uspdev\Cache\Cache;
 
 class UserController extends Controller
 {
@@ -110,8 +111,8 @@ class UserController extends Controller
 
     public function emails(Request $request, Lista $lista)
     {
-
-        $result = DB::fetchAll($lista->replicado_query);
+        $cache = new Cache();
+        $result = $cache->getCached('\Uspdev\Replicado\DB::fetchAll',$lista->replicado_query);
         $emails = array_column($result, 'codema');
 
         $request->session()->flash('alert-success', "Emails gerado com sucesso: {$lista->description}");

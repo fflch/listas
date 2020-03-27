@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ce667e424ab27a0e76f3880b0cc5f2ea",
+    "content-hash": "5fc7cbcef8f34e75ede2519348970eb1",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3995,6 +3995,44 @@
             "description": "CssToInlineStyles is a class that enables you to convert HTML-pages/files into HTML-pages/files with inline styles. This is very useful when you're sending emails.",
             "homepage": "https://github.com/tijsverkoyen/CssToInlineStyles",
             "time": "2019-10-24T08:53:34+00:00"
+        },
+        {
+            "name": "uspdev/cache",
+            "version": "v0.7.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/uspdev/cache.git",
+                "reference": "fc3d03e8748643d4d82a6f6e8e5c9ec0e92a8e90"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/uspdev/cache/zipball/fc3d03e8748643d4d82a6f6e8e5c9ec0e92a8e90",
+                "reference": "fc3d03e8748643d4d82a6f6e8e5c9ec0e92a8e90",
+                "shasum": ""
+            },
+            "require": {
+                "ext-memcached": "*",
+                "php": ">=7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Uspdev\\Cache\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Masaki Kawabata Neto",
+                    "email": "masaki.kawabata@gmail.com"
+                }
+            ],
+            "description": "Library to connect to cache server",
+            "homepage": "https://github.com/uspdev/cache",
+            "time": "2020-03-27T01:32:35+00:00"
         },
         {
             "name": "uspdev/laravel-usp-theme",
