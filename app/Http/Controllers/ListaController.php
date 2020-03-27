@@ -154,6 +154,16 @@ class ListaController extends Controller
         $mailman->removeMembers($to_remove);
         $mailman->addMembers($to_add);
 
+        /* update stats */
+        $lista->stat_mailman_before = count($emails_mailman);
+        $lista->stat_mailman_after = count($emails_mailman)+count($to_add)-count($to_remove);
+        $lista->stat_mailman_added = count($to_add);
+        $lista->stat_mailman_removed = count($to_remove);
+        $lista->stat_mailman_replicado = count($emails_replicado);
+        $lista->stat_replicado_updated = count($emails_replicado);
+        $lista->stat_mailman_date = date('Y-m-d H:i:s');
+        $lista->save();
+
         $request->session()->flash('alert-success', 
             count($to_remove) . " emails removidos e " .
             count($to_add) . " adicionados.");

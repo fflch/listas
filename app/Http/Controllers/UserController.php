@@ -117,6 +117,11 @@ class UserController extends Controller
 
         $request->session()->flash('alert-success', "Emails gerado com sucesso: {$lista->description}");
         $emails = implode(', ',$emails);
+
+        /* Atualiza Estatística */
+        $lista->stat_replicado_updated = count($emails);
+        $lista->save();
+
         return view('emails',compact('emails'));
     }
 }

@@ -22,7 +22,6 @@
                 <input type="text" class="form-control" name="url_mailman" value="{{ $lista->url_mailman ?? old('url_mailman')  }}" >
             </div>
 
-
             <div class="form-group">
                 <label for="pass">Senha de administração</label>
                 <input type="text" class="form-control" name="pass" value="{{ $lista->pass ?? old('pass')  }}" >
