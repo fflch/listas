@@ -2346,7 +2346,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/thiagogomesverissimo/mailmanAPI.git",
-                "reference": "a9b0edbbe976db145aa371613ffdc4be8e4d5528"
+                "reference": "3fe00c1bb05407bba6fb0d026cad538d9d439ba4"
             },
             "require": {
                 "guzzlehttp/guzzle": "~6.0",
@@ -2370,7 +2370,7 @@
             ],
             "description": "A simple API to work with Mailman 2.x Mailing Lists",
             "homepage": "https://github.com/splattner/mailmanAPI",
-            "time": "2020-03-27T03:13:20+00:00"
+            "time": "2020-03-27T14:17:20+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
