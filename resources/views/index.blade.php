@@ -6,7 +6,7 @@
 @include('messages.errors')
 
 <div class="card">
-    <div class="card-header">Listas</div>
+    <div class="card-header"><b>Listas</b></div>
     <div class="card-body">
 
         <div class="table-responsive">
@@ -62,7 +62,7 @@
 @can('authorized')
 
 <div class="card">
-    <div class="card-header">Coleções de emails que não possuem listas</div>
+    <div class="card-header"><b>Coleções de emails que não possuem listas</b></div>
     <div class="card-body">
 
         <div class="table-responsive">
