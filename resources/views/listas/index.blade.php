@@ -25,7 +25,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($listas->sortBy('name') as $lista)
+            @foreach($listas->sortBy('description') as $lista)
             <tr>
                 <td><a href="/listas/{{ $lista->id }}">{{ $lista->description }}</a></td>
                 <td>
