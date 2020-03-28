@@ -21,5 +21,10 @@ return [
             'url'  => '/users',
             'can'  => 'authorized'
         ],
+        [
+            'text' => 'Listas Dinâmicas',
+            'url'  => '/listas_dinamicas',
+            'can'  => 'authorized'
+        ],
     ]
 ];
