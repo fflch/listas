@@ -38,6 +38,7 @@
         <li class="list-group-item"><b>url_mailman</b>: {{ $lista->url_mailman }}</li>
         <li class="list-group-item"><b>pass</b>: {{ $lista->pass }}</li>
         <li class="list-group-item"><b>emails_allowed</b>: {{ $lista->emails_allowed }}</li>
+        <li class="list-group-item"><b>emails_adicionais</b>: {{ $lista->emails_adicionais }}</li>
         @if(!empty($lista->stat_mailman_date))
         <div class="card">
             <div class="card-header">Estatística da Sincronização</div>

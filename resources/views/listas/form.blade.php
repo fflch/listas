@@ -32,6 +32,11 @@
                 <textarea id="emails_allowed" class="form-control" name="emails_allowed">{{ $lista->emails_allowed ?? old('emails_allowed')  }}</textarea>
             </div>
 
+            <div class="form-group">
+                <label for="emails_adicionais">Emails adicionais</label>
+                <textarea id="emails_adicionais" class="form-control" name="emails_adicionais">{{ $lista->emails_adicionais ?? old('emails_adicionais')  }}</textarea>
+            </div>
+
 </div>
 </div>
 <br>

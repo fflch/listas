@@ -6,9 +6,11 @@
 
 @section('content')
 
+@include('messages.flash')
+@include('messages.errors')
+
 <div class="row">
-    @include('messages.flash')
-    @include('messages.errors')
+
 
         <div class="col">
             <form method="post" action="{{ url('listas') }}">

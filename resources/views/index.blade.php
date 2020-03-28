@@ -15,8 +15,9 @@
                     <tr>
                         <th>Nome da Lista</th>
                         <th>Lista</th>
-                        <th>emails</th>
+                        <th>Qtde</th>
                         <th>Autorizados</th>
+                        @can('authorized')<th>Emails adicionais</th>@endcan('authorized')
         @can('authorized') <th>Gerar lista com emails</th> @endcan('authorized')
                     </tr>
                 </thead>
@@ -35,6 +36,17 @@
                               </ul>
                             @endif
                         </td>
+                        @can('authorized')
+                        <td>
+                            @if ($lista->emails_adicionais != "")
+                              <ul>
+                              @foreach(explode(',', $lista->emails_adicionais) as $email)
+                                <li>{{$email}}</li>
+                              @endforeach
+                              </ul>
+                            @endif
+                        </td>
+                        @endcan('authorized')
         @can('authorized')
         <td><a href="/emails/{{$lista->id}}" class="btn btn-primary">Gerar</a></td>
         @endcan('authorized')
@@ -58,7 +70,7 @@
                 <thead>
                     <tr>
                         <th>Nome da Coleção</th>
-                        <th>Emails</th>
+                        <th>Qtde</th>
                         <th>Gerar lista com emails</th>
                     </tr>
                 </thead>

@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use splattner\mailmanapi\MailmanAPI;
 use Uspdev\Replicado\DB;
 use Uspdev\Cache\Cache;
+use App\Rules\MultipleEmailRule;
+use App\Utils;
 
 class ListaController extends Controller
 {
@@ -48,6 +50,8 @@ class ListaController extends Controller
         $request->validate([
             'description'     => 'required',
             'replicado_query' => 'required',
+            'emails_allowed' => [new MultipleEmailRule],
+            'emails_adicionais' => [new MultipleEmailRule],
         ]);
 
         $lista = new Lista;
@@ -55,7 +59,8 @@ class ListaController extends Controller
         $lista->url_mailman = $request->url_mailman;
         $lista->description = $request->description;
         $lista->pass = $request->pass;
-        $lista->emails_allowed = $request->emails_allowed;
+        $lista->emails_allowed = Utils::trimEmails($request->emails_allowed);
+        $lista->emails_adicionais = Utils::trimEmails($request->emails_adicionais);
         $lista->replicado_query = $request->replicado_query;
         $lista->save();
 
@@ -98,13 +103,16 @@ class ListaController extends Controller
         $request->validate([
             'description'     => 'required',
             'replicado_query' => 'required',
+            'emails_allowed' => [new MultipleEmailRule],
+            'emails_adicionais' => [new MultipleEmailRule],
         ]);
 
         $lista->name = $request->name;
         $lista->url_mailman = $request->url_mailman;
         $lista->description = $request->description;
         $lista->pass = $request->pass;
-        $lista->emails_allowed = $request->emails_allowed;
+        $lista->emails_allowed = Utils::trimEmails($request->emails_allowed);
+        $lista->emails_adicionais = Utils::trimEmails($request->emails_adicionais);
         $lista->replicado_query = $request->replicado_query;
         $lista->save();
 
