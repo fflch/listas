@@ -115,12 +115,12 @@ class UserController extends Controller
         $result = $cache->getCached('\Uspdev\Replicado\DB::fetchAll',$lista->replicado_query);
         $emails = array_column($result, 'codema');
 
-        $request->session()->flash('alert-success', "Emails gerado com sucesso: {$lista->description}");
-        $emails = implode(', ',$emails);
-
         /* Atualiza Estatística */
         $lista->stat_replicado_updated = count($emails);
         $lista->save();
+
+        $emails = implode(', ',$emails);
+        $request->session()->flash('alert-success', "Emails gerado com sucesso: {$lista->description}");
 
         return view('emails',compact('emails'));
     }
