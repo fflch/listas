@@ -21,24 +21,24 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($mailman->sortBy('name') as $lista)
+                    @foreach($mailman->sortBy('description') as $lista)
                     <tr>
                         <td>{{ $lista->description }}</td>
                         <td>{{ $lista->name }}@listas.usp.br</td>
-                        <td>{{ $lista->stat_replicado_updated }}</td>   
+                        <td>{{ $lista->stat_replicado_updated }}</td>
                         <td>
                             @if ($lista->emails_allowed != "")
                               <ul>
-                              @foreach(explode(',', $lista->emails_allowed) as $email) 
+                              @foreach(explode(',', $lista->emails_allowed) as $email)
                                 <li>{{$email}}</li>
                               @endforeach
                               </ul>
                             @endif
-                        </td>     
+                        </td>
         @can('authorized')
         <td><a href="/emails/{{$lista->id}}" class="btn btn-primary">Gerar</a></td>
         @endcan('authorized')
-             
+
                     </tr>
                     @endforeach
                 </tbody>
@@ -63,11 +63,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($no_mailman->sortBy('name') as $lista)
+                    @foreach($no_mailman->sortBy('description') as $lista)
                     <tr>
                         <td>{{ $lista->description }}</td>
-                        <td>{{ $lista->stat_replicado_updated }}</td>  
-                        <td><a href="/emails/{{$lista->id}}" class="btn btn-primary">Gerar</a></td>         
+                        <td>{{ $lista->stat_replicado_updated }}</td>
+                        <td><a href="/emails/{{$lista->id}}" class="btn btn-primary">Gerar</a></td>
                     </tr>
                     @endforeach
                 </tbody>
