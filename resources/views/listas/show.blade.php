@@ -50,6 +50,15 @@
                     <li class="list-group-item"><b>Emails no replicado agora</b>: 
                         {{ $lista->stat_replicado_updated }}</li>
 
+                    <li class="list-group-item"><b>Emails Adicionais</b>: 
+@php 
+if(!(empty($lista->emails_adicionais)))
+echo count(explode(',',$lista->emails_adicionais));
+else
+echo 0;
+@endphp
+                    </li>
+
                     <li class="list-group-item"><b>Email no mailman antes da sincronização</b>: 
                         {{ $lista->stat_mailman_before }}</li>
 

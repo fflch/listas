@@ -148,16 +148,23 @@ class ListaController extends Controller
         $cache = new Cache();
         $result = $cache->getCached('\Uspdev\Replicado\DB::fetchAll',$lista->replicado_query);
         $emails_replicado = array_column($result, 'codema');
+
+        /* Emails adicionais */
+        if(empty($lista->emails_adicionais))
+            $emails_adicionais = [];
+        else
+            $emails_adicionais = explode(',',$lista->emails_adicionais); 
+        $emails_updated = array_merge($emails_replicado,$emails_adicionais);
         
-        /* Emails que estão no replicado, mas não na lista
+        /* Emails que estão no replicado+adicionais, mas não na lista
          * Serão inseridos na lista         
          */
-        $to_add = array_diff($emails_replicado,$emails_mailman);
+        $to_add = array_diff($emails_updated,$emails_mailman);
 
-        /* Emails que estão na lista, mas não no replicado
+        /* Emails que estão na lista, mas não no replicado+adicionais
          * Serão removidos na lista
          */
-        $to_remove = array_diff($emails_mailman,$emails_replicado);
+        $to_remove = array_diff($emails_mailman,$emails_updated);
 
         $mailman->removeMembers($to_remove);
         $mailman->addMembers($to_add);
