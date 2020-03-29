@@ -150,10 +150,12 @@ class ListaController extends Controller
         $emails_replicado = array_column($result, 'codema');
 
         /* Emails adicionais */
-        if(empty($lista->emails_adicionais))
+        if(empty($lista->emails_adicionais)) {
             $emails_adicionais = [];
-        else
-            $emails_adicionais = explode(',',$lista->emails_adicionais); 
+        }
+        else {
+            $emails_adicionais = explode(',',$lista->emails_adicionais);
+        }
         $emails_updated = array_merge($emails_replicado,$emails_adicionais);
         
         /* Emails que estão no replicado+adicionais, mas não na lista

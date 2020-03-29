@@ -70,7 +70,7 @@ class ListaDinamicaController extends Controller
         $listaDinamica->url_mailman = $request->url_mailman;
         $listaDinamica->pass = $request->pass;
         $listaDinamica->emails_allowed = Utils::trimEmails($request->emails_allowed);
-        $listaDinamica->emails_adicionais = Utils::trimEmails($request->emails_adicionais);
+
         $listaDinamica->save();
 
         $request->session()->flash('alert-success', 'Lista Dinâmica cadastrada com sucesso!');
@@ -87,7 +87,14 @@ class ListaDinamicaController extends Controller
     {
         $this->authorize('authorized');
         $listaDinamica = $listasDinamica;
-        $listas = Lista::all();
+        $listas = [];
+        if(!is_null($listasDinamica->listas_ids)){
+            $listas_ids = explode(',',$listasDinamica->listas_ids);
+            foreach($listas_ids as $lista_id){
+                $lista = Lista::find($lista_id);
+                $listas[$lista_id] = $lista;
+            }
+        }
         return view('listas_dinamicas/show',compact('listaDinamica','listas'));
     }
 
@@ -131,7 +138,7 @@ class ListaDinamicaController extends Controller
         $listaDinamica->url_mailman = $request->url_mailman;
         $listaDinamica->pass = $request->pass;
         $listaDinamica->emails_allowed = Utils::trimEmails($request->emails_allowed);
-        $listaDinamica->emails_adicionais = Utils::trimEmails($request->emails_adicionais);
+
         $listaDinamica->save();
 
         $request->session()->flash('alert-success', 'Lista Dinâmica Atualizada com sucesso!');
@@ -165,57 +172,55 @@ class ListaDinamicaController extends Controller
             'emails_adicionais' => [new MultipleEmailRule],
         ]);
 
-        // Parei aqui
-        
-        dd($request->listas); //listas_ids
-
-        //$last_user_id = Auth::user();
-
         $url = $listaDinamica->url_mailman . '/' . $listaDinamica->name;
         $mailman = new MailmanAPI($url,$listaDinamica->pass,false);
 
-        /* Emails da lista */
+        /* Remove emails atuais dessa lista */
         $emails_mailman = $mailman->getMemberlist();
+        $mailman->removeMembers($emails_mailman);
 
-        /* Emails do replicado */
+        /* Pega emails no replicado paras as coleções*/
+        $emails = [];
         $cache = new Cache();
-        $result = $cache->getCached('\Uspdev\Replicado\DB::fetchAll',$listaDinamica->replicado_query);
-        $emails_replicado = array_column($result, 'codema');
 
-        /* Emails adicionais */
-        if(empty($listaDinamica->emails_adicionais))
-            $emails_adicionais = [];
-        else
-            $emails_adicionais = explode(',',$listaDinamica->emails_adicionais); 
-        $emails_updated = array_merge($emails_replicado,$emails_adicionais);
+        if(!is_null($request->listas)) {
+            foreach($request->listas as $lista_id){
+                $lista = Lista::find($lista_id);
+                $result = $cache->getCached('\Uspdev\Replicado\DB::fetchAll',$lista->replicado_query);
+                $emails_lista = array_column($result, 'codema');
+                $emails = array_merge($emails,$emails_lista);
+                /* Emails adicionais da lista */
+                if(!empty($lista->emails_adicionais)){
+                    $emails_adicionais = explode(',',$lista->emails_adicionais); 
+                    $emails = array_merge($emails,$emails_adicionais);
+                 }
+            }
+            /* Savar coleções usadas na listaDinamica */
+            $listaDinamica->listas_ids = implode(',',$request->listas);
+        } else {
+            $listaDinamica->listas_ids = null;
+        }
         
-        /* Emails que estão no replicado+adicionais, mas não na lista
-         * Serão inseridos na lista         
-         */
-        $to_add = array_diff($emails_updated,$emails_mailman);
+        /* Emails adicionais nesta lista dinâmica */
+        $listaDinamica->emails_adicionais = Utils::trimEmails($request->emails_adicionais);
+        if(!empty($listaDinamica->emails_adicionais)) {
+            $emails_adicionais = explode(',',$listaDinamica->emails_adicionais); 
+            $emails = array_merge($emails,$emails_adicionais);
+        }
+        
+        /* Adiciona emails no mailman */
+        $emails = array_unique($emails);
+        $mailman->addMembers($emails);
 
-        /* Emails que estão na lista, mas não no replicado+adicionais
-         * Serão removidos na lista
-         */
-        $to_remove = array_diff($emails_mailman,$emails_updated);
-
-        $mailman->removeMembers($to_remove);
-        $mailman->addMembers($to_add);
-
-        /* update stats */
-        $listaDinamica->stat_mailman_before = count($emails_mailman);
-        $listaDinamica->stat_mailman_after = count($emails_mailman)+count($to_add)-count($to_remove);
-        $listaDinamica->stat_mailman_added = count($to_add);
-        $listaDinamica->stat_mailman_removed = count($to_remove);
-        $listaDinamica->stat_mailman_replicado = count($emails_replicado);
-        $listaDinamica->stat_replicado_updated = count($emails_replicado);
+        $listaDinamica->last_user_id = Auth::user()->id;
+        $listaDinamica->stat_mailman_total = count($emails);
         $listaDinamica->stat_mailman_date = date('Y-m-d H:i:s');
         $listaDinamica->save();
 
         $request->session()->flash('alert-success', 
-            count($to_remove) . " emails removidos e " .
-            count($to_add) . " adicionados.");
+            "Lista Dinâmica redefinida com sucesso, totalizando " .
+            count($emails) . " e-mails");
 
-        return redirect("/listas/$listaDinamica->id");
+        return redirect("/listas_dinamicas/$listaDinamica->id");
     }
 }

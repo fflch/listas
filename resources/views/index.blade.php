@@ -26,7 +26,7 @@
                     <tr>
                         <td>{{ $lista->description }}</td>
                         <td>{{ $lista->name }}@listas.usp.br</td>
-                        <td>{{ $lista->stat_replicado_updated }}</td>
+                        <td>{{ $lista->stat_replicado_updated + 0}}</td>
                         <td>
                             @if ($lista->emails_allowed != "")
                               <ul>
@@ -53,6 +53,7 @@
 
                     </tr>
                     @endforeach
+
                 </tbody>
             </table>
         </div>
@@ -78,7 +79,7 @@
                     @foreach($no_mailman->sortBy('description') as $lista)
                     <tr>
                         <td>{{ $lista->description }}</td>
-                        <td>{{ $lista->stat_replicado_updated }}</td>
+                        <td>{{ $lista->stat_replicado_updated + 0 }}</td>
                         <td><a href="/emails/{{$lista->id}}" class="btn btn-primary">Gerar</a></td>
                     </tr>
                     @endforeach
