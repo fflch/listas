@@ -17,14 +17,19 @@
                         <th>Lista</th>
                         <th>Qtde</th>
                         <th>Autorizados</th>
-                        @can('authorized')<th>Emails adicionais</th>@endcan('authorized')
-        @can('authorized') <th>Gerar lista com emails</th> @endcan('authorized')
+      @can('authorized')<th>Emails adicionais</th>@endcan('authorized')
+      @can('authorized')<th>Gerar lista com emails</th> @endcan('authorized')
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($mailman->sortBy('description') as $lista)
                     <tr>
+                        @can('admin')
+                        <td><a href="/listas/{{ $lista->id }}">{{ $lista->description }}</a></td>
+                        @else
                         <td>{{ $lista->description }}</td>
+                        @endcan('admin')
+
                         <td>{{ $lista->name }}@listas.usp.br</td>
                         <td>{{ $lista->stat_replicado_updated + 0}}</td>
                         <td>
@@ -50,7 +55,6 @@
         @can('authorized')
         <td><a href="/emails/{{$lista->id}}" class="btn btn-primary">Gerar</a></td>
         @endcan('authorized')
-
                     </tr>
                     @endforeach
 
@@ -78,7 +82,11 @@
                 <tbody>
                     @foreach($no_mailman->sortBy('description') as $lista)
                     <tr>
+                        @can('admin')
+                        <td><a href="/listas/{{ $lista->id }}">{{ $lista->description }}</a></td>
+                        @else
                         <td>{{ $lista->description }}</td>
+                        @endcan('admin')
                         <td>{{ $lista->stat_replicado_updated + 0 }}</td>
                         <td><a href="/emails/{{$lista->id}}" class="btn btn-primary">Gerar</a></td>
                     </tr>
