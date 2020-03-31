@@ -24,7 +24,7 @@
 
   - Por padrão, as postagens de novos membros da lista devem ser moderadas: Sim
   - Ação a ser tomada quando um membro moderado posta para a lista: Descartar
-  - * Lista se endereços de não membros no qual as postagens devam ser aceitas automaticamente: Colocar endereços *
+  - Lista se endereços de não membros no qual as postagens devam ser aceitas automaticamente: Colocar endereços
   - Ação a ser tomada para postagem de não membros no qual nenhuma ação explicita é definida: Descartar
   - As mensagens para os não-membros, que são automaticamente descartadas, devem ser redirecionadas ao moderador da lista: Não
 
