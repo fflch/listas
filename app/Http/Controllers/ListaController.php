@@ -65,7 +65,7 @@ class ListaController extends Controller
         $lista->save();
 
         $request->session()->flash('alert-success', 'Lista cadastrada com sucesso!');
-        return redirect()->route('listas.index');
+        return redirect("/listas/{$lista->id}");
     }
 
     /**
@@ -117,7 +117,7 @@ class ListaController extends Controller
         $lista->save();
 
         $request->session()->flash('alert-success', 'Lista atualizada com sucesso!');
-        return redirect()->route('listas.index');
+        return redirect("/listas/{$lista->id}");
     }
 
     /**
@@ -157,9 +157,9 @@ class ListaController extends Controller
             $emails_adicionais = explode(',',$lista->emails_adicionais);
         }
         $emails_updated = array_merge($emails_replicado,$emails_adicionais);
-        
+
         /* Emails que estão no replicado+adicionais, mas não na lista
-         * Serão inseridos na lista         
+         * Serão inseridos na lista
          */
         $to_add = array_diff($emails_updated,$emails_mailman);
 
@@ -181,7 +181,7 @@ class ListaController extends Controller
         $lista->stat_mailman_date = date('Y-m-d H:i:s');
         $lista->save();
 
-        $request->session()->flash('alert-success', 
+        $request->session()->flash('alert-success',
             count($to_remove) . " emails removidos e " .
             count($to_add) . " adicionados.");
 
