@@ -36,7 +36,7 @@
     <ul class="list-group list-group-flush">
         <li class="list-group-item"><b>name</b>: {{ $lista->name }}</li>
         <li class="list-group-item"><b>url_mailman</b>: {{ $lista->url_mailman }}</li>
-        <li class="list-group-item"><b>url completa</b>: <a href="{{ $lista->url_mailman }}/{{ $lista->name }}">{{ $lista->url_mailman }}/{{ $lista->name }}</a></li>
+        <li class="list-group-item"><b>url completa</b>: <a href="{{ $lista->url_mailman }}/{{ $lista->name }}" target="_blank">{{ $lista->url_mailman }}/{{ $lista->name }}</a></li>
         <li class="list-group-item"><b>pass</b>: {{ $lista->pass }}</li>
         <li class="list-group-item"><b>emails_allowed</b>: {{ $lista->emails_allowed }}</li>
         <li class="list-group-item"><b>emails_adicionais</b>: {{ $lista->emails_adicionais }}</li>
