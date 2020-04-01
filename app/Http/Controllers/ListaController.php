@@ -138,11 +138,6 @@ class ListaController extends Controller
 
             return redirect("/listas/$lista->id");
         }
-        $url = $lista->url_mailman . '/' . $lista->name;
-        $mailman = new MailmanAPI($url,$lista->pass,false);
-
-        /* Emails da lista */
-        $emails_mailman = $mailman->getMemberlist();
 
         /* Emails do replicado */
         $cache = new Cache();
@@ -158,6 +153,13 @@ class ListaController extends Controller
         }
         $emails_updated = array_merge($emails_replicado,$emails_adicionais);
 
+        /* Agora vamos no mailman */
+        $url = $lista->url_mailman . '/' . $lista->name;
+        $mailman = new MailmanAPI($url,$lista->pass,false);
+
+        /* Emails da lista */
+        $emails_mailman = $mailman->getMemberlist();
+
         /* Emails que estão no replicado+adicionais, mas não na lista
          * Serão inseridos na lista
          */
@@ -168,7 +170,11 @@ class ListaController extends Controller
          */
         $to_remove = array_diff($emails_mailman,$emails_updated);
 
+        /* remove olders */
         $mailman->removeMembers($to_remove);
+
+        /* add news */
+        $to_add = array_unique($to_add);
         $mailman->addMembers($to_add);
 
         /* update stats */

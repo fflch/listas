@@ -172,14 +172,7 @@ class ListaDinamicaController extends Controller
             'emails_adicionais' => [new MultipleEmailRule],
         ]);
 
-        $url = $listaDinamica->url_mailman . '/' . $listaDinamica->name;
-        $mailman = new MailmanAPI($url,$listaDinamica->pass,false);
-
-        /* Remove emails atuais dessa lista */
-        $emails_mailman = $mailman->getMemberlist();
-        $mailman->removeMembers($emails_mailman);
-
-        /* Pega emails no replicado paras as coleções*/
+        /* Pega emails no replicado paras as coleções selecionadas */
         $emails = [];
         $cache = new Cache();
 
@@ -201,12 +194,20 @@ class ListaDinamicaController extends Controller
             $listaDinamica->listas_ids = null;
         }
         
-        /* Emails adicionais nesta lista dinâmica */
+        /* Emails adicionais especificamente nesta lista dinâmica */
         $listaDinamica->emails_adicionais = Utils::trimEmails($request->emails_adicionais);
         if(!empty($listaDinamica->emails_adicionais)) {
             $emails_adicionais = explode(',',$listaDinamica->emails_adicionais); 
             $emails = array_merge($emails,$emails_adicionais);
         }
+
+        /* Agora vamos no mailman  */
+        $url = $listaDinamica->url_mailman . '/' . $listaDinamica->name;
+        $mailman = new MailmanAPI($url,$listaDinamica->pass,false);
+
+        /* Remove emails atuais dessa lista */
+        $emails_mailman = $mailman->getMemberlist();
+        $mailman->removeMembers($emails_mailman);
         
         /* Adiciona emails no mailman */
         $emails = array_unique($emails);
