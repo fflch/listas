@@ -4,8 +4,8 @@
 
 ### Em mailman/admin/LISTA/general:
 
-  - Uma frase resumo identificando esta lista (opcional)
-  - Prefixo colocado na linha de assunto das postagens nas listas (opcional)
+  - O endereço de email do administrador da lista. São permitidos múltiplos endereços: fflchsti@usp.br
+  - O endereço de email do moderador da lista. No caso de múltiplos endereços de moderador: fflchsti@usp.br
   - Ocultar o remetente da mensagem, substituindo-o pelo endereço do nome da lista: não
   - Onde as respostas para as mensagens desta lista deverão ser direcionadas: Remetente
   - Enviar lembretes mensais de senha? Não
