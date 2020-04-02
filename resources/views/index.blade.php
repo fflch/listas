@@ -6,7 +6,7 @@
 @include('messages.errors')
 
 <div class="card">
-    <div class="card-header"><b>Listas</b></div>
+    <div class="card-header"><b>Listas Consolidadas</b></div>
     <div class="card-body">
 
         <div class="table-responsive">
@@ -64,10 +64,9 @@
     </div>
 </div>
 <br><br>
-@can('authorized')
 
 <div class="card">
-    <div class="card-header"><b>Coleções de emails que não possuem listas</b></div>
+    <div class="card-header"><b>Coleções de emails (que não possuem listas consolidadas) </b></div>
     <div class="card-body">
 
         <div class="table-responsive">
@@ -76,7 +75,7 @@
                     <tr>
                         <th>Nome da Coleção</th>
                         <th>Qtde</th>
-                        <th>Gerar lista com emails</th>
+                        @can('authorized')<th>Gerar lista com emails</th>@endcan('authorized')
                     </tr>
                 </thead>
                 <tbody>
@@ -88,7 +87,7 @@
                         <td>{{ $lista->description }}</td>
                         @endcan('admin')
                         <td>{{ $lista->stat_replicado_updated + 0 }}</td>
-                        <td><a href="/emails/{{$lista->id}}" class="btn btn-primary">Gerar</a></td>
+                        @can('authorized')<td><a href="/emails/{{$lista->id}}" class="btn btn-primary">Gerar</a></td>@endcan('authorized')
                     </tr>
                     @endforeach
                 </tbody>
@@ -96,6 +95,6 @@
         </div>
     </div>
 </div>
-@endcan('authorized')
+
 @endsection
 

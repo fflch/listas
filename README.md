@@ -1,3 +1,16 @@
+## Instalação (debian 10)
+
+    sudo apt-get install memcached
+    sudo apt-get install php-memcached
+
+## Configuração mínima
+
+    composer install
+    cp .env.example .env
+    php artisan key:generate
+    php artisan migrate
+    php artisan vendor:publish --provider="Uspdev\UspTheme\ServiceProvider" --tag=assets --force
+
 # Listas
 
 ## Configurações mailman:
