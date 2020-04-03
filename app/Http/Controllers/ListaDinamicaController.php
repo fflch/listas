@@ -71,6 +71,7 @@ class ListaDinamicaController extends Controller
         $listaDinamica->pass = $request->pass;
         $listaDinamica->emails_allowed = Utils::trimEmails($request->emails_allowed);
 
+        $this->setConfigMailman($listaDinamica);
         $listaDinamica->save();
 
         $request->session()->flash('alert-success', 'Lista Dinâmica cadastrada com sucesso!');
@@ -139,6 +140,7 @@ class ListaDinamicaController extends Controller
         $listaDinamica->pass = $request->pass;
         $listaDinamica->emails_allowed = Utils::trimEmails($request->emails_allowed);
 
+        $this->setConfigMailman($listaDinamica);
         $listaDinamica->save();
 
         $request->session()->flash('alert-success', 'Lista Dinâmica Atualizada com sucesso!');
@@ -207,9 +209,15 @@ class ListaDinamicaController extends Controller
 
         /* Remove emails atuais dessa lista */
         $emails_mailman = $mailman->getMemberlist();
+        $emails_mailman = array_map( 'trim', $emails_mailman );
         $mailman->removeMembers($emails_mailman);
         
+        /* Emails allowed não pode fazer parte da lista */
+        $emails_allowed = explode(',',$listaDinamica->emails_allowed);
+        $emails = array_diff($emails,$emails_allowed);
+
         /* Adiciona emails no mailman */
+        $emails = array_map( 'trim', $emails );
         $emails = array_unique($emails);
         $mailman->addMembers($emails);
 
@@ -223,5 +231,13 @@ class ListaDinamicaController extends Controller
             count($emails) . " e-mails");
 
         return redirect("/listas_dinamicas/$listaDinamica->id");
+    }
+
+    private function setConfigMailman($lista) {
+        if(!empty($lista->pass) && !empty($lista->url_mailman) && !empty($lista->name)) {
+            $url = $lista->url_mailman . '/' . $lista->name;
+            $mailman = new MailmanAPI($url,$lista->pass,false);
+            $mailman->configPrivacySender(explode(',',$lista->emails_allowed));
+        }
     }
 }

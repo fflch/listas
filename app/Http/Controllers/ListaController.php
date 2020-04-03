@@ -62,8 +62,9 @@ class ListaController extends Controller
         $lista->emails_allowed = Utils::trimEmails($request->emails_allowed);
         $lista->emails_adicionais = Utils::trimEmails($request->emails_adicionais);
         $lista->replicado_query = $request->replicado_query;
+        
+        $this->setConfigMailman($lista);
         $lista->save();
-
         $request->session()->flash('alert-success', 'Lista cadastrada com sucesso!');
         return redirect("/listas/{$lista->id}");
     }
@@ -114,6 +115,8 @@ class ListaController extends Controller
         $lista->emails_allowed = Utils::trimEmails($request->emails_allowed);
         $lista->emails_adicionais = Utils::trimEmails($request->emails_adicionais);
         $lista->replicado_query = $request->replicado_query;
+
+        $this->setConfigMailman($lista);
         $lista->save();
 
         $request->session()->flash('alert-success', 'Lista atualizada com sucesso!');
@@ -165,15 +168,21 @@ class ListaController extends Controller
          */
         $to_add = array_diff($emails_updated,$emails_mailman);
 
+        /* Emails allowed não podem fazer parte das listas */
+        $emails_allowed = explode(',',$lista->emails_allowed);
+        $to_add = array_diff($to_add,$emails_allowed);
+
         /* Emails que estão na lista, mas não no replicado+adicionais
          * Serão removidos na lista
          */
         $to_remove = array_diff($emails_mailman,$emails_updated);
 
         /* remove olders */
+        $to_remove = array_map( 'trim', $to_remove );
         $mailman->removeMembers($to_remove);
 
         /* add news */
+        $to_add = array_map( 'trim', $to_add );
         $to_add = array_unique($to_add);
         $mailman->addMembers($to_add);
 
@@ -192,6 +201,14 @@ class ListaController extends Controller
             count($to_add) . " adicionados.");
 
         return redirect("/listas/$lista->id");
+    }
+
+    private function setConfigMailman($lista) {
+        if(!empty($lista->pass) && !empty($lista->url_mailman) && !empty($lista->name)) {
+            $url = $lista->url_mailman . '/' . $lista->name;
+            $mailman = new MailmanAPI($url,$lista->pass,false);
+            $mailman->configPrivacySender(explode(',',$lista->emails_allowed));
+        }
     }
 
 }
