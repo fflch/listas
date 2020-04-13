@@ -32,6 +32,10 @@
 ### Em mailman/admin/LISTA/privacy/subscribing:
 
   - Que passos são requeridos para a inscrição? Confirmar e aprovar
+  
+### Em mailman/admin/LISTA/privacy/recipient:
+
+  - As postagens devem ter o nome da lista no campo destino (to, cc) da lista (ou estar junto de nomes de aliases, especificados abaixo)? Não
 
 ### Em mailman/admin/LISTA/digest:
 
