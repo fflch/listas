@@ -32,14 +32,11 @@
 ### Em mailman/admin/LISTA/privacy/subscribing:
 
   - Que passos são requeridos para a inscrição? Confirmar e aprovar
+  
+### Em mailman/admin/LISTA/privacy/recipient:
 
-### Em mailman/admin/LISTA/privacy/sender:
-
-  - Por padrão, as postagens de novos membros da lista devem ser moderadas: Sim
-  - Ação a ser tomada quando um membro moderado posta para a lista: Descartar
-  - Lista se endereços de não membros no qual as postagens devam ser aceitas automaticamente: Colocar endereços do emails_allowed
-  - Ação a ser tomada para postagem de não membros no qual nenhuma ação explicita é definida: Descartar
-  - As mensagens para os não-membros, que são automaticamente descartadas, devem ser redirecionadas ao moderador da lista: Não
+  - As postagens devem ter o nome da lista no campo destino (to, cc) da lista (ou estar junto de nomes de aliases, especificados abaixo)? Não
+  - Pondo um limite aceitável no número de recipientes para postagem: 0
 
 ### Em mailman/admin/LISTA/digest:
 
