@@ -36,6 +36,7 @@
 ### Em mailman/admin/LISTA/privacy/recipient:
 
   - As postagens devem ter o nome da lista no campo destino (to, cc) da lista (ou estar junto de nomes de aliases, especificados abaixo)? Não
+  - Pondo um limite aceitável no número de recipientes para postagem: 0
 
 ### Em mailman/admin/LISTA/digest:
 
