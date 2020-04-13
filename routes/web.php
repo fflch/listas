@@ -17,9 +17,12 @@ Route::resource('/listas', 'ListaController');
 Route::resource('/listas_dinamicas', 'ListaDinamicaController');
 
 /* TODO: Mudar para POST */
-Route::get('/updateMailman/{lista}', 'ListaController@updateMailman');
-Route::get('/emails/{lista}', 'UserController@emails');
+Route::get('/emails', 'EmailController@form');
+Route::post('/emails', 'EmailController@show');
+Route::get('/emails/{lista}', 'EmailController@emails');
 
+/* TODO: Mudar para POST */
+Route::get('/updateMailman/{lista}', 'ListaController@updateMailman');
 
 Route::get('/redefinir/{listaDinamica}', 'ListaDinamicaController@redefinirForm');
 Route::post('/redefinir/{listaDinamica}', 'ListaDinamicaController@redefinir');

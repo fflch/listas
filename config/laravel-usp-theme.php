@@ -26,5 +26,10 @@ return [
             'url'  => '/listas_dinamicas',
             'can'  => 'authorized'
         ],
+        [
+            'text' => 'Gerar Emails',
+            'url'  => '/emails',
+            'can'  => 'authorized'
+        ],
     ]
 ];

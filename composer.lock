@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5fc7cbcef8f34e75ede2519348970eb1",
+    "content-hash": "eecc09944cbc5e8539037ec2c9506962",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1030,16 +1030,16 @@
         },
         {
             "name": "league/commonmark",
-            "version": "1.3.3",
+            "version": "1.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "5a67afc2572ec6d430526cdc9c637ef124812389"
+                "reference": "dd3261eb9a322e009fa5d96d19b9ae19708ce04b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/5a67afc2572ec6d430526cdc9c637ef124812389",
-                "reference": "5a67afc2572ec6d430526cdc9c637ef124812389",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/dd3261eb9a322e009fa5d96d19b9ae19708ce04b",
+                "reference": "dd3261eb9a322e009fa5d96d19b9ae19708ce04b",
                 "shasum": ""
             },
             "require": {
@@ -1100,7 +1100,7 @@
                 "md",
                 "parser"
             ],
-            "time": "2020-04-05T16:01:48+00:00"
+            "time": "2020-04-13T20:52:18+00:00"
         },
         {
             "name": "league/flysystem",
@@ -2162,12 +2162,6 @@
                 "identifier",
                 "uuid"
             ],
-            "funding": [
-                {
-                    "url": "https://github.com/ramsey",
-                    "type": "github"
-                }
-            ],
             "time": "2020-03-29T20:13:32+00:00"
         },
         {
@@ -2232,8 +2226,8 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/thiagogomesverissimo/mailmanAPI.git",
-                "reference": "8578f5f7203636db8c83c336a4b7eb0afc157730"
+                "url": "https://github.com/fflch/mailmanAPI.git",
+                "reference": "367f63bc230fea35a62ea69283c02c30579a0a79"
             },
             "require": {
                 "guzzlehttp/guzzle": "~6.0",
@@ -2257,7 +2251,7 @@
             ],
             "description": "A simple API to work with Mailman 2.x Mailing Lists",
             "homepage": "https://github.com/splattner/mailmanAPI",
-            "time": "2020-04-13T14:19:39+00:00"
+            "time": "2020-04-13T15:51:44+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -2777,20 +2771,6 @@
             ],
             "description": "Symfony HttpFoundation Component",
             "homepage": "https://symfony.com",
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
             "time": "2020-03-30T14:14:32+00:00"
         },
         {
