@@ -205,9 +205,24 @@ class ListaController extends Controller
 
     private function setConfigMailman($lista) {
         if(!empty($lista->pass) && !empty($lista->url_mailman) && !empty($lista->name)) {
+            $owner = 'fflchsti@usp.br';
             $url = $lista->url_mailman . '/' . $lista->name;
             $mailman = new MailmanAPI($url,$lista->pass,false);
             $mailman->configPrivacySender(explode(',',$lista->emails_allowed));
+            $mailman->configGeneral($lista->name,$owner,$lista->name);
+
+            /* Os métodos abaixo estão funcionando, porém, são muitas
+               requisições. Quando o apache2 do mailman nos bloqueia
+               é retornado null.
+
+            $mailman->configGeneral($lista->name,$owner,ucfirst($lista->name));
+            $mailman->configPrivacySubscribing();
+            $mailman->configPrivacyRecipient();
+            $mailman->configDigest();
+            $mailman->configNonDigest();
+            $mailman->configBounce();
+            */            
+           
         }
     }
 

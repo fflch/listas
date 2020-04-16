@@ -233,6 +233,9 @@ class ListaDinamicaController extends Controller
         return redirect("/listas_dinamicas/$listaDinamica->id");
     }
 
+    /* Esse método está repetido de ListaController.php
+       Criar uma classe auxiliar     
+    */
     private function setConfigMailman($lista) {
         if(!empty($lista->pass) && !empty($lista->url_mailman) && !empty($lista->name)) {
             $url = $lista->url_mailman . '/' . $lista->name;
