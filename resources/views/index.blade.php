@@ -18,7 +18,6 @@
                         <th>Qtde</th>
                         <th>Autorizados</th>
       @can('authorized')<th>Emails adicionais</th>@endcan('authorized')
-      @can('authorized')<th>Gerar lista com emails</th> @endcan('authorized')
                     </tr>
                 </thead>
                 <tbody>
@@ -31,7 +30,13 @@
                         @endcan('admin')
 
                         <td>{{ $lista->name }}@listas.usp.br</td>
-                        <td>{{ $lista->stat_replicado_updated + 0}}</td>
+                        <td>{{ $lista->stat_replicado_updated + 0}}
+                            <br>
+        @can('authorized')
+        <a href="/emails/{{$lista->id}}" class="btn btn-primary">Gerar Emails</a>
+        @endcan('authorized')
+
+                        </td>
                         <td>
                             @if ($lista->emails_allowed != "")
                               <ul>
@@ -52,9 +57,6 @@
                             @endif
                         </td>
                         @endcan('authorized')
-        @can('authorized')
-        <td><a href="/emails/{{$lista->id}}" class="btn btn-primary">Gerar</a></td>
-        @endcan('authorized')
                     </tr>
                     @endforeach
 
@@ -75,7 +77,6 @@
                     <tr>
                         <th>Nome da Coleção</th>
                         <th>Qtde</th>
-                        @can('authorized')<th>Gerar lista com emails</th>@endcan('authorized')
                     </tr>
                 </thead>
                 <tbody>
@@ -86,8 +87,9 @@
                         @else
                         <td>{{ $lista->description }}</td>
                         @endcan('admin')
-                        <td>{{ $lista->stat_replicado_updated + 0 }}</td>
-                        @can('authorized')<td><a href="/emails/{{$lista->id}}" class="btn btn-primary">Gerar</a></td>@endcan('authorized')
+                        <td>{{ $lista->stat_replicado_updated + 0 }} <br>
+                        @can('authorized')<td><a href="/emails/{{$lista->id}}" class="btn btn-primary">Gerar</a>@endcan('authorized')
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
