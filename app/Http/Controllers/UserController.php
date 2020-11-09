@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Rules\Numeros_USP;
-use App\User;
+use App\Models\User;
 use Uspdev\Replicado\Pessoa;
 use Uspdev\Replicado\DB;
-use App\Lista;
+use App\Models\Lista;
 use Uspdev\Cache\Cache;
 
 class UserController extends Controller

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use Uspdev\Replicado\DB;
 use Uspdev\Cache\Cache;
-use App\Lista;
+use App\Models\Lista;
 
 
 class EmailController extends Controller

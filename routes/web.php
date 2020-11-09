@@ -1,31 +1,39 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\IndexController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\ListaController;
+use App\Http\Controllers\ListaDinamicaController;
+use App\Http\Controllers\EmailController;
+use App\Http\Controllers\UserController;
+
+
 
 /* index */
-Route::get('/home', 'IndexController@index')->name('home');
-Route::get('/', 'IndexController@index');
+Route::get('/home', [IndexController::class, 'index'])->name('home');
+Route::get('/', [IndexController::class, 'index']);
 
 /* rotas para login e logout */
-Route::get('login', 'Auth\LoginController@redirectToProvider')->name('login');;
-Route::get('callback', 'Auth\LoginController@handleProviderCallback');
-Route::post('/logout', 'Auth\LoginController@logout');
-Route::get('/logout', 'Auth\LoginController@logout');
+Route::get('login', [LoginController::class, 'redirectToProvider'])->name('login');;
+Route::get('callback', [LoginController::class, 'handleProviderCallback']);
+Route::post('/logout', [LoginController::class, 'logout']);
+Route::get('/logout', [LoginController::class, 'logout']);
 
 /* resource listas model */
-Route::resource('/listas', 'ListaController');
-Route::resource('/listas_dinamicas', 'ListaDinamicaController');
+Route::resource('/listas', ListaController::class);
+Route::resource('/listas_dinamicas', ListaDinamicaController::class);
 
 /* TODO: Mudar para POST */
-Route::get('/emails', 'EmailController@form');
-Route::post('/emails', 'EmailController@show');
-Route::get('/emails/{lista}', 'EmailController@emails');
+Route::get('/emails', [EmailController::class, 'form']);
+Route::post('/emails', [EmailController::class, 'show']);
+Route::get('/emails/{lista}', [EmailController::class, 'emails']);
 
 /* TODO: Mudar para POST */
-Route::get('/updateMailman/{lista}', 'ListaController@updateMailman');
+Route::get('/updateMailman/{lista}', [ListaController::class, 'updateMailman']);
 
-Route::get('/redefinir/{listaDinamica}', 'ListaDinamicaController@redefinirForm');
-Route::post('/redefinir/{listaDinamica}', 'ListaDinamicaController@redefinir');
+Route::get('/redefinir/{listaDinamica}', [ListaDinamicaController::class, 'redefinirForm']);
+Route::post('/redefinir/{listaDinamica}', [ListaDinamicaController::class, 'redefinir']);
 
 /* User */
-Route::resource('/users', 'UserController');
+Route::resource('/users', UserController::class);

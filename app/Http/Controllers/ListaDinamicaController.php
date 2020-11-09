@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\ListaDinamica;
+use App\Models\ListaDinamica;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-use App\Lista;
+use App\Models\Lista;
 use splattner\mailmanapi\MailmanAPI;
 use Uspdev\Replicado\DB;
 use Uspdev\Cache\Cache;
 use App\Rules\MultipleEmailRule;
-use App\Utils;
+use App\Models\Utils;
 
 class ListaDinamicaController extends Controller
 {
