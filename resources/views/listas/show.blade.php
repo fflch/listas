@@ -9,14 +9,14 @@
     @include('messages.errors')
 
 <div>
-    <a href="{{action('ListaController@edit', $lista->id)}}" class="btn btn-success">Editar</a>
+    <a href="{{action('\App\Http\Controllers\ListaController@edit', $lista->id)}}" class="btn btn-success">Editar</a>
 </div>
 
 <br>
 
 @if(!empty($lista->url_mailman))
 <div>
-    <a href="{{action('ListaController@updateMailman', $lista->id)}}" class="btn btn-warning">Atualizar lista com emails do Replicado</a>
+    <a href="{{action('\App\Http\Controllers\ListaController@updateMailman', $lista->id)}}" class="btn btn-warning">Atualizar lista com emails do Replicado</a>
 </div>
 @endif
 

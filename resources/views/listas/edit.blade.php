@@ -14,7 +14,7 @@
 
 
     <div class="col">
-        <form method="post" action="{{ action('ListaController@update', $lista->id) }}">
+        <form method="post" action="{{ action('\App\Http\Controllers\ListaController@update', $lista->id) }}">
             {{ csrf_field() }}
             {{ method_field('patch') }}
             @include('listas.form')

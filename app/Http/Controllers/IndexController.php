@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Lista;
-use App\ListaDinamica;
+use App\Models\Lista;
+use App\Models\ListaDinamica;
 
 class IndexController extends Controller
 {

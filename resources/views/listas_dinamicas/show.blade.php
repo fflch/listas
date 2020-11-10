@@ -10,7 +10,7 @@
 
 @can('admin')
 <div>
-    <a href="{{action('ListaDinamicaController@edit', $listaDinamica->id)}}" class="btn btn-success">Editar</a>
+    <a href="{{action('\App\Http\Controllers\ListaDinamicaController@edit', $listaDinamica->id)}}" class="btn btn-success">Editar</a>
 </div>
 @endcan('admin')
 
@@ -32,7 +32,7 @@
             <li class="list-group-item"><b>Alterado por</b>: 
                 @php
                 /* Ok, isso tá muito porco, será mudado */
-                $tmp = \App\User::find($listaDinamica->last_user_id);
+                $tmp = \App\Models\User::find($listaDinamica->last_user_id);
                 @endphp
                 {{ $tmp->name }}
             </li>

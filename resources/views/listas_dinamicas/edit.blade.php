@@ -13,7 +13,7 @@
 <div class="row">
 
     <div class="col">
-        <form method="post" action="{{ action('ListaDinamicaController@update', $listaDinamica->id) }}">
+        <form method="post" action="{{ action('\App\Http\Controllers\ListaDinamicaController@update', $listaDinamica->id) }}">
             {{ csrf_field() }}
             {{ method_field('patch') }}
             @include('listas_dinamicas.form')

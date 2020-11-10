@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Lista;
+use App\Models\Lista;
 use Illuminate\Http\Request;
 use splattner\mailmanapi\MailmanAPI;
 use Uspdev\Replicado\DB;
 use Uspdev\Cache\Cache;
 use App\Rules\MultipleEmailRule;
-use App\Utils;
+use App\Models\Utils;
 
 class ListaController extends Controller
 {
