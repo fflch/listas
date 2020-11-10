@@ -35,10 +35,10 @@
                 <td><a href="/listas_dinamicas/{{ $listaDinamica->id }}">{{ $listaDinamica->description }}</a></td>
                 @can('admin')
                 <td>
-                    <a href="{{action('ListaDinamicaController@edit', $listaDinamica->id)}}" class="btn btn-warning">Editar</a>
+                    <a href="{{action('\App\Http\Controllers\ListaDinamicaController@edit', $listaDinamica->id)}}" class="btn btn-warning">Editar</a>
                 </td>
                 <td>
-                    <form action="{{action('ListaDinamicaController@destroy', $listaDinamica->id)}}" method="post">
+                    <form action="{{action('\App\Http\Controllers\ListaDinamicaController@destroy', $listaDinamica->id)}}" method="post">
                         {{csrf_field()}}
                         <input name="_method" type="hidden" value="DELETE">
                         <button class="delete-item btn btn-danger" type="submit">Deletar</button>

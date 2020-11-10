@@ -36,10 +36,10 @@
                     @endif
                 </td>
                 <td>
-                    <a href="{{action('ListaController@edit', $lista->id)}}" class="btn btn-warning">Editar</a>
+                    <a href="{{action('\App\Http\Controllers\ListaController@edit', $lista->id)}}" class="btn btn-warning">Editar</a>
                 </td>
                 <td>
-                    <form action="{{action('ListaController@destroy', $lista->id)}}" method="post">
+                    <form action="{{action('\App\Http\Controllers\ListaController@destroy', $lista->id)}}" method="post">
                         {{csrf_field()}}
                         <input name="_method" type="hidden" value="DELETE">
                         <button class="delete-item btn btn-danger" type="submit">Deletar</button>
