@@ -12,7 +12,7 @@ class IndexController extends Controller
     {
         $mailman = Lista::whereNotNull('url_mailman')->get();
         $no_mailman = Lista::whereNull('url_mailman')->get();
-        $listas_dinamicas = ListaDinamica::all();
-        return view('index',compact('no_mailman','mailman','listas_dinamicas'));
+        //$listas_dinamicas = ListaDinamica::all();
+        return view('index',compact('no_mailman','mailman'));
     }
 }

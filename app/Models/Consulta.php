@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Lista extends Model
+class Consulta extends Model
 {
     use HasFactory;
-    public function consultas()
+    public function listas()
     {
-        return $this->belongsToMany('App\Models\Consulta')->withTimestamps();
+        return $this->belongsToMany('App\Models\Lista')->withTimestamps();
     }
 }
