@@ -35,7 +35,8 @@ class ListaController extends Controller
      */
     public function create()
     {
-        return view('listas/create');
+        $lista = new Lista;
+        return view('listas/create', compact('lista'));
     }
 
     /**
@@ -49,11 +50,11 @@ class ListaController extends Controller
         // Validações
         $request->validate([
             'description'     => 'required',
-            'replicado_query' => 'required',
+            //'replicado_query' => 'required',
             'emails_allowed' => [new MultipleEmailRule],
             'emails_adicionais' => [new MultipleEmailRule],
         ]);
-
+        //dd($request);
         $lista = new Lista;
         $lista->name = $request->name;
         $lista->url_mailman = $request->url_mailman;
@@ -61,10 +62,11 @@ class ListaController extends Controller
         $lista->pass = $request->pass;
         $lista->emails_allowed = Utils::trimEmails($request->emails_allowed);
         $lista->emails_adicionais = Utils::trimEmails($request->emails_adicionais);
-        $lista->replicado_query = $request->replicado_query;
+        //$lista->replicado_query = $request->replicado_query;
         
-        $this->setConfigMailman($lista);
+        //$this->setConfigMailman($lista);
         $lista->save();
+        $lista->saveConsultasLista($request->replicado_query);
         $request->session()->flash('alert-success', 'Lista cadastrada com sucesso!');
         return redirect("/listas/{$lista->id}");
     }
@@ -103,7 +105,7 @@ class ListaController extends Controller
         // Validações
         $request->validate([
             'description'     => 'required',
-            'replicado_query' => 'required',
+            //'replicado_query' => 'required',
             'emails_allowed' => [new MultipleEmailRule],
             'emails_adicionais' => [new MultipleEmailRule],
         ]);
@@ -114,11 +116,11 @@ class ListaController extends Controller
         $lista->pass = $request->pass;
         $lista->emails_allowed = Utils::trimEmails($request->emails_allowed);
         $lista->emails_adicionais = Utils::trimEmails($request->emails_adicionais);
-        $lista->replicado_query = $request->replicado_query;
+        //$lista->replicado_query = $request->replicado_query;
 
-        $this->setConfigMailman($lista);
+        //$this->setConfigMailman($lista);
         $lista->save();
-
+        $lista->saveConsultasLista($request->replicado_query);
         $request->session()->flash('alert-success', 'Lista atualizada com sucesso!');
         return redirect("/listas/{$lista->id}");
     }

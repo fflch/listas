@@ -5,19 +5,18 @@
 
 <div class="form-group">
     <label for="replicado_query">Consultas</label>
-    <select name="replicado_query" class="form-control-sm" id="replicado_query">
-        <option value="" selected="">Escolha as consultas (queries)</option>
-        @foreach($lista->consultas()->sortBy('nome') as $consulta)
-            @if(old('replicado_query')=='' and isset($consulta->rede_id))
-                <option value="{{ $rede->id }}" {{ ( $equipamento->rede_id == $rede->id) ? 'selected' : ''}}>
-                    {{ $rede->nome }} | {{ $rede->iprede . '/' . $rede->cidr }}
-                </option>                
-            @else
-                <option value="{{ $rede->id }}" {{ (Request()->rede_id == $rede->id) ? 'selected' : ''}}>
-                    {{ $rede->nome }} | {{ $rede->iprede . '/' . $rede->cidr }}
-                </option>   
-            @endif
-        @endforeach()
+    <select multiple="" name="replicado_query[]" class="form-control" id="replicado_query">
+        @foreach($lista->consultaOptions() as $consulta)
+                @if(old('replicado_query') == '')
+                    <option value="{{ $consulta->id }}" @foreach($lista->consultas()->get() as $replicado_query) {{ ($consulta->id == $replicado_query->id) ? 'selected' : ''}} @endforeach>
+                        {{ $consulta->nome }} | {{ $consulta->replicado_query }}
+                    </option>                
+                @else
+                    <option value="{{ $consulta->id }}" {{ (Request()->nome == $consulta->nome) ? 'selected' : ''}}>
+                        {{ $consulta->nome }} | {{ $consulta->replicado_query }}
+                    </option>   
+                @endif
+        @endforeach
     </select>
 </div>
 

@@ -26,7 +26,11 @@
 <div class="card">
     <div class="card-header">{{ $lista->description }}</div>
     <ul class="list-group list-group-flush">
-        <li class="list-group-item"><b>replicado_query</b>: {{ $lista->replicado_query }}</li>
+        <li class="list-group-item"><b>Consultas</b>:<br> 
+        @foreach($lista->consultas()->get() as $consulta)
+            {{ $consulta->nome }} | {{ $consulta->replicado_query }}<br>
+        @endforeach
+        </li>
     </ul>
 </div>
 
