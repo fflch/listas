@@ -5,7 +5,6 @@ use App\Http\Controllers\IndexController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ListaController;
 use App\Http\Controllers\ConsultaController;
-//use App\Http\Controllers\ListaDinamicaController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\UserController;
 
@@ -24,7 +23,6 @@ Route::get('/logout', [LoginController::class, 'logout']);
 /* resource listas model */
 Route::resource('/listas', ListaController::class);
 Route::resource('/consultas', ConsultaController::class);
-//Route::resource('/listas_dinamicas', ListaDinamicaController::class);
 
 /* TODO: Mudar para POST */
 Route::get('/emails', [EmailController::class, 'form']);
@@ -33,9 +31,6 @@ Route::get('/emails/{lista}', [EmailController::class, 'emails']);
 
 /* TODO: Mudar para POST */
 Route::get('/updateMailman/{lista}', [ListaController::class, 'updateMailman']);
-
-//Route::get('/redefinir/{listaDinamica}', [ListaDinamicaController::class, 'redefinirForm']);
-//Route::post('/redefinir/{listaDinamica}', [ListaDinamicaController::class, 'redefinir']);
 
 /* User */
 Route::resource('/users', UserController::class);

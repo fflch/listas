@@ -50,11 +50,10 @@ class ListaController extends Controller
         // Validações
         $request->validate([
             'description'     => 'required',
-            //'replicado_query' => 'required',
+            'replicado_query' => 'required',
             'emails_allowed' => [new MultipleEmailRule],
             'emails_adicionais' => [new MultipleEmailRule],
         ]);
-        //dd($request);
         $lista = new Lista;
         $lista->name = $request->name;
         $lista->url_mailman = $request->url_mailman;
@@ -62,11 +61,12 @@ class ListaController extends Controller
         $lista->pass = $request->pass;
         $lista->emails_allowed = Utils::trimEmails($request->emails_allowed);
         $lista->emails_adicionais = Utils::trimEmails($request->emails_adicionais);
-        //$lista->replicado_query = $request->replicado_query;
-        
-        //$this->setConfigMailman($lista);
+        $this->setConfigMailman($lista);
         $lista->save();
+
+        //Salva as consultas relacionadas à lista
         $lista->saveConsultasLista($request->replicado_query);
+
         $request->session()->flash('alert-success', 'Lista cadastrada com sucesso!');
         return redirect("/listas/{$lista->id}");
     }
@@ -105,7 +105,7 @@ class ListaController extends Controller
         // Validações
         $request->validate([
             'description'     => 'required',
-            //'replicado_query' => 'required',
+            'replicado_query' => 'required',
             'emails_allowed' => [new MultipleEmailRule],
             'emails_adicionais' => [new MultipleEmailRule],
         ]);
@@ -116,11 +116,12 @@ class ListaController extends Controller
         $lista->pass = $request->pass;
         $lista->emails_allowed = Utils::trimEmails($request->emails_allowed);
         $lista->emails_adicionais = Utils::trimEmails($request->emails_adicionais);
-        //$lista->replicado_query = $request->replicado_query;
-
-        //$this->setConfigMailman($lista);
+        $this->setConfigMailman($lista);
         $lista->save();
+
+        //Salva as consultas relacionadas à lista
         $lista->saveConsultasLista($request->replicado_query);
+        
         $request->session()->flash('alert-success', 'Lista atualizada com sucesso!');
         return redirect("/listas/{$lista->id}");
     }
@@ -133,6 +134,11 @@ class ListaController extends Controller
      */
     public function destroy(Lista $lista)
     {
+        /*
+        $lista->consultas()->detach();
+        $lista->delete();
+        return redirect('/listas');
+        */
         die("Not implemented");
     }
 

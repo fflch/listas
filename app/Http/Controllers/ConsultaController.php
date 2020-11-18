@@ -104,6 +104,11 @@ class ConsultaController extends Controller
      */
     public function destroy(Consulta $consulta)
     {
+        /*
+        $consulta->listas()->detach();
+        $consulta->delete();
+        return redirect('/consultas');
+        */
         die("Not implemented");
     }
 }

@@ -27,11 +27,6 @@ return [
             'can'  => 'authorized'
         ],
         [
-            'text' => 'Listas Dinâmicas',
-            'url'  => '/listas_dinamicas',
-            'can'  => 'authorized'
-        ],
-        [
             'text' => 'Gerar Emails',
             'url'  => '/emails',
             'can'  => 'authorized'
