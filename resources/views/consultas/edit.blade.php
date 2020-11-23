@@ -1,7 +1,7 @@
 @extends('master')
 
 @section('content_header')
-    <h1>Editar Lista Dinâmica</h1>
+    <h1>Editar Consulta</h1>
 @stop
 
 
@@ -12,11 +12,12 @@
 
 <div class="row">
 
+
     <div class="col">
-        <form method="post" action="{{ action('\App\Http\Controllers\ListaDinamicaController@update', $listaDinamica->id) }}">
+        <form method="post" action="{{ action('\App\Http\Controllers\ConsultaController@update', $consulta->id) }}">
             {{ csrf_field() }}
             {{ method_field('patch') }}
-            @include('listas_dinamicas.form')
+            @include('consultas.form')
         </form>
     </div>
 </div>

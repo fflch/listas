@@ -1,7 +1,7 @@
 @extends('master')
 
 @section('content_header')
-    <h1>Cadastrar Lista Dinâmica</h1>
+    <h1>Cadastrar Consulta</h1>
 @stop
 
 @section('content')
@@ -11,10 +11,11 @@
 
 <div class="row">
 
+
         <div class="col">
-            <form method="post" action="{{ url('listas_dinamicas') }}">
+            <form method="post" action="{{ url('consultas') }}">
                 {{ csrf_field() }}
-                @include('listas_dinamicas.form')
+                @include('consultas.form')
             </form>
         </div>
     </div>

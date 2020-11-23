@@ -22,8 +22,8 @@ return [
             'can'  => 'authorized'
         ],
         [
-            'text' => 'Listas Dinâmicas',
-            'url'  => '/listas_dinamicas',
+            'text' => 'Consultas (Queries)',
+            'url'  => '/consultas',
             'can'  => 'authorized'
         ],
         [

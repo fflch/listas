@@ -4,8 +4,20 @@
 </div>
 
 <div class="form-group">
-    <label for="replicado_query">Replicado Query (sem ;)</label>
-    <textarea id="replicado_query" class="form-control" name="replicado_query" rows="7">{{ $lista->replicado_query ?? old('replicado_query')  }}</textarea>
+    <label for="replicado_query">Consultas</label>
+    <select multiple="" name="replicado_query[]" class="form-control" id="replicado_query">
+        @foreach($lista->consultaOptions() as $consulta)
+                @if(old('replicado_query') == '')
+                    <option value="{{ $consulta->id }}" @foreach($lista->consultas()->get() as $replicado_query) {{ ($consulta->id == $replicado_query->id) ? 'selected' : ''}} @endforeach>
+                        {{ $consulta->nome }} | {{ $consulta->replicado_query }}
+                    </option>                
+                @else
+                    <option value="{{ $consulta->id }}" {{ (Request()->nome == $consulta->nome) ? 'selected' : ''}}>
+                        {{ $consulta->nome }} | {{ $consulta->replicado_query }}
+                    </option>   
+                @endif
+        @endforeach
+    </select>
 </div>
 
 <div class="card">
