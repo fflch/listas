@@ -12,6 +12,13 @@ class Mailman
 {
     public static function emails(Lista $lista)
     {
+        $url = $lista->url_mailman . '/' . $lista->name;
+        $mailman = new MailmanAPI($url,$lista->pass,false);
+
+        # são retornados os que foram inseridos
+        $response = $mailman->syncMembers(['fflchsti@usp.br']);
+        dd($response);
+
         /* Emails do replicado */
         $emails_replicado = []; 
         foreach($lista->consultas as $consulta){
@@ -86,9 +93,9 @@ class Mailman
 
     public static function config(Lista $lista) {
 
-        $footer = '<b>FFLCH</b>
-        <a href="https://listas.usp.br">Listas</a>
-        ';
+        $footer = "
+        FFLCH
+        https://listas.usp.br";
   
         $url = $lista->url_mailman . '/' . $lista->name;
         $mailman = new MailmanAPI($url,$lista->pass,false);
@@ -100,11 +107,11 @@ class Mailman
         );
 
         $mailman->configPrivacySender(explode(',',$lista->emails_allowed));
-
         $mailman->configNonDigest($footer);
         $mailman->configPrivacySubscribing();
         $mailman->configPrivacyRecipient();
         $mailman->configDigest();
-        $mailman->configBounce();          
+        $mailman->configBounce();
+        $mailman->configArchive();
     }
 }
