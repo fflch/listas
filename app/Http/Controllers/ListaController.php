@@ -61,7 +61,7 @@ class ListaController extends Controller
         $lista->pass = $request->pass;
         $lista->emails_allowed = Utils::trimEmails($request->emails_allowed);
         $lista->emails_adicionais = Utils::trimEmails($request->emails_adicionais);
-        $this->setConfigMailman($lista);
+        #$this->setConfigMailman($lista);
         $lista->save();
 
         //Salva as consultas relacionadas à lista
@@ -116,7 +116,7 @@ class ListaController extends Controller
         $lista->pass = $request->pass;
         $lista->emails_allowed = Utils::trimEmails($request->emails_allowed);
         $lista->emails_adicionais = Utils::trimEmails($request->emails_adicionais);
-        $this->setConfigMailman($lista);
+        //$this->setConfigMailman($lista);
         $lista->save();
 
         //Salva as consultas relacionadas à lista
