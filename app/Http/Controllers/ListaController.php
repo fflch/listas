@@ -147,6 +147,12 @@ class ListaController extends Controller
         if($request->mailman == 'emails') {
             Mailman::emails($lista);
         }
+
+        if($request->mailman == 'config') {
+            Mailman::config($lista);
+        }
+
+        
         die("Not implemented");
     }
     

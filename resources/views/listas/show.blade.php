@@ -15,7 +15,7 @@
 <div>
     <form method="POST" action="/mailman/{{ $lista->id }}">
     @csrf
-    <button type="submit" class="btn btn-warning" name="mailman" value="config">Atualizar emails da lista</button>
+    <button type="submit" class="btn btn-warning" name="mailman" value="config">Atualizar configuração da lista</button>
     <button type="submit" class="btn btn-warning" name="mailman" value="emails">Atualizar emails da lista</button>
     </form>
 </div>

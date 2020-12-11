@@ -84,26 +84,27 @@ class Mailman
         return [];
     }
 
-    private function setConfigMailman($lista) {
-        if(!empty($lista->pass) && !empty($lista->url_mailman) && !empty($lista->name)) {
-            $owner = 'fflchsti@usp.br';
-            $url = $lista->url_mailman . '/' . $lista->name;
-            $mailman = new MailmanAPI($url,$lista->pass,false);
-            $mailman->configPrivacySender(explode(',',$lista->emails_allowed));
-            $mailman->configGeneral($lista->name,$owner,$lista->name);
+    public static function config(Lista $lista) {
 
-            /* Os métodos abaixo estão funcionando, porém, são muitas
-               requisições. Quando o apache2 do mailman nos bloqueia
-               é retornado null.
+        $footer = '<b>FFLCH</b>
+        <a href="https://listas.usp.br">Listas</a>
+        ';
+  
+        $url = $lista->url_mailman . '/' . $lista->name;
+        $mailman = new MailmanAPI($url,$lista->pass,false);
+        
+        $mailman->configGeneral($lista->name,
+            config('listas.mailman_owner'),
+            $lista->name,
+            str_replace('@','',config('listas.mailman_suffix'))
+        );
 
-            $mailman->configGeneral($lista->name,$owner,ucfirst($lista->name));
-            $mailman->configPrivacySubscribing();
-            $mailman->configPrivacyRecipient();
-            $mailman->configDigest();
-            $mailman->configNonDigest();
-            $mailman->configBounce();
-            */            
-           
-        }
+        $mailman->configPrivacySender(explode(',',$lista->emails_allowed));
+
+        $mailman->configNonDigest($footer);
+        $mailman->configPrivacySubscribing();
+        $mailman->configPrivacyRecipient();
+        $mailman->configDigest();
+        $mailman->configBounce();          
     }
 }
