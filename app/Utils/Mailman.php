@@ -6,15 +6,18 @@ use splattner\mailmanapi\MailmanAPI;
 use Uspdev\Replicado\DB;
 use Uspdev\Cache\Cache;
 use App\Rules\MultipleEmailRule;
+use App\Models\Lista;
 
 class Mailman
 {
-    public static function update(Lista $lista)
+    public static function emails(Lista $lista)
     {
         /* Emails do replicado */
-        $cache = new Cache();
-        $result = $cache->getCached('\Uspdev\Replicado\DB::fetchAll',$lista->replicado_query);
-        $emails_replicado = array_column($result, 'codema');
+        $emails_replicado = []; 
+        foreach($lista->consultas as $consulta){
+            $emails_replicado[] = self::emails_replicado($consulta->replicado_query);
+        }
+        $emails_replicado = call_user_func_array('array_merge', $emails_replicado);
 
         /* Emails adicionais */
         if(empty($lista->emails_adicionais)) {
@@ -24,6 +27,8 @@ class Mailman
             $emails_adicionais = explode(',',$lista->emails_adicionais);
         }
         $emails_updated = array_merge($emails_replicado,$emails_adicionais);
+        # Parei aqui
+        dd($emails_updated);
 
         /* Agora vamos no mailman */
         $url = $lista->url_mailman . '/' . $lista->name;
@@ -70,6 +75,13 @@ class Mailman
             count($to_add) . " adicionados.");
 
         return redirect("/listas/$lista->id");
+    }
+
+    public static function emails_replicado($query){
+        $cache = new Cache();
+        $result = $cache->getCached('\Uspdev\Replicado\DB::fetchAll',$query);
+        if($result) return array_column($result, 'codema');
+        return [];
     }
 
     private function setConfigMailman($lista) {

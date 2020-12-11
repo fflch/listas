@@ -6,14 +6,14 @@
 <div class="card">
     <div class="card-header">Consultas</div>
     <div class="card-body">
-        @foreach($lista->consultaOptions() as $consulta)
+        @foreach(App\Models\Consulta::orderBy('nome','asc')->get() as $consulta)
             @if(old('replicado_query') == '')
                 <input type="checkbox" name="replicado_query[{{$consulta->id}}]" value="{{$consulta->id}}"@foreach($lista->consultas()->get() as $replicado_query) {{ ($consulta->id == $replicado_query->id) ? 'checked' : ''}} @endforeach>
-                <label for="replicado_query[{{$consulta->id}}]">{{ $consulta->nome }} | {{ $consulta->replicado_query }}
+                <label for="replicado_query[{{$consulta->id}}]">{{ $consulta->nome }} 
                 </label><br/>                
             @else
                 <input type="checkbox" name="replicado_query[{{$consulta->id}}]" value="{{$consulta->id}}">
-                <label for="replicado_query[{{$consulta->id}}]">{{ $consulta->nome }} | {{ $consulta->replicado_query }}
+                <label for="replicado_query[{{$consulta->id}}]">{{ $consulta->nome }}
                 </label><br/>   
             @endif
         @endforeach

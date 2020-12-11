@@ -18,19 +18,17 @@ Route::get('/', [IndexController::class, 'index']);
 Route::get('login', [LoginController::class, 'redirectToProvider'])->name('login');;
 Route::get('callback', [LoginController::class, 'handleProviderCallback']);
 Route::post('/logout', [LoginController::class, 'logout']);
-Route::get('/logout', [LoginController::class, 'logout']);
 
 /* resource listas model */
 Route::resource('/listas', ListaController::class);
 Route::resource('/consultas', ConsultaController::class);
+Route::resource('/users', UserController::class);
 
-/* TODO: Mudar para POST */
+/* Gerador de emails */
 Route::get('/emails', [EmailController::class, 'form']);
 Route::post('/emails', [EmailController::class, 'show']);
-Route::get('/emails/{lista}', [EmailController::class, 'emails']);
 
-/* TODO: Mudar para POST */
-Route::get('/updateMailman/{lista}', [ListaController::class, 'updateMailman']);
+/* Mailman */
+Route::post('/mailman/{lista}', [ListaController::class, 'mailman']);
 
-/* User */
-Route::resource('/users', UserController::class);
+

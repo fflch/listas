@@ -1,16 +1,13 @@
 <?php
 
 return [
-    'title'=> 'Listas FFLCH',
-    'dashboard_url' => '/',
-    'logout_method' => 'GET',
-    'logout_url' => '/logout',
-    'login_url' => '/login',
+    'title'=> config('app.name'),
+    'dashboard_url' => config('app.url'),
+    'app_url' => config('app.url'),
+    'logout_method' => 'POST',
+    'logout_url' => config('app.url') . '/logout',
+    'login_url' => config('app.url') . '/login',
     'menu' => [
-        [
-            'text' => 'Início',
-            'url'  => '/',
-        ],
         [
             'text' => 'Listas',
             'url'  => '/listas',

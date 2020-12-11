@@ -20,7 +20,13 @@
             <li class="list-group-item"><b>Consulta (Query)</b>: {{ $consulta->replicado_query }}</li>
         </ul>
     </div>
-
+<br>
+    <div class="card">
+        <div class="card-header">Emails: {{ count($emails) }}</div>
+        <div class="card-body">
+            {{ implode(', ',$emails) }}
+        </div>
+    </div>
 @stop
 
 

@@ -13,15 +13,4 @@ class Lista extends Model
     {
         return $this->belongsToMany(Consulta::class)->withTimestamps();
     }
-
-    public static function consultaOptions(){
-        return Consulta::orderBy('nome','asc')->get();
-    }
-
-    public function saveConsultasLista($consultas){
-        $this->consultas()->detach();
-        foreach($consultas as $consulta){
-            $this->consultas()->attach($consulta);
-        }
-    }
 }

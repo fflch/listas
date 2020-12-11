@@ -8,7 +8,8 @@ use splattner\mailmanapi\MailmanAPI;
 use Uspdev\Replicado\DB;
 use Uspdev\Cache\Cache;
 use App\Rules\MultipleEmailRule;
-use App\Models\Utils;
+use App\Utils\Utils;
+use App\Utils\Mailman;
 
 class ListaController extends Controller
 {
@@ -50,9 +51,10 @@ class ListaController extends Controller
         // Validações
         $request->validate([
             'description'     => 'required',
-            'replicado_query' => 'required',
             'emails_allowed' => [new MultipleEmailRule],
             'emails_adicionais' => [new MultipleEmailRule],
+            'url_mailman' => 'required',
+            'pass' => 'required',
         ]);
         $lista = new Lista;
         $lista->name = $request->name;
@@ -61,11 +63,10 @@ class ListaController extends Controller
         $lista->pass = $request->pass;
         $lista->emails_allowed = Utils::trimEmails($request->emails_allowed);
         $lista->emails_adicionais = Utils::trimEmails($request->emails_adicionais);
-        #$this->setConfigMailman($lista);
         $lista->save();
 
         //Salva as consultas relacionadas à lista
-        $lista->saveConsultasLista($request->replicado_query);
+        $lista->consultas()->sync($request->replicado_query);
 
         $request->session()->flash('alert-success', 'Lista cadastrada com sucesso!');
         return redirect("/listas/{$lista->id}");
@@ -116,11 +117,10 @@ class ListaController extends Controller
         $lista->pass = $request->pass;
         $lista->emails_allowed = Utils::trimEmails($request->emails_allowed);
         $lista->emails_adicionais = Utils::trimEmails($request->emails_adicionais);
-        //$this->setConfigMailman($lista);
         $lista->save();
 
         //Salva as consultas relacionadas à lista
-        $lista->saveConsultasLista($request->replicado_query);
+        $lista->consultas()->sync($request->replicado_query);
         
         $request->session()->flash('alert-success', 'Lista atualizada com sucesso!');
         return redirect("/listas/{$lista->id}");
@@ -141,4 +141,13 @@ class ListaController extends Controller
         */
         die("Not implemented");
     }
+
+    public function mailman(Request $request, Lista $lista)
+    {
+        if($request->mailman == 'emails') {
+            Mailman::emails($lista);
+        }
+        die("Not implemented");
+    }
+    
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Consulta;
 use Illuminate\Http\Request;
+use App\Utils\Mailman;
 
 class ConsultaController extends Controller
 {
@@ -62,7 +63,10 @@ class ConsultaController extends Controller
      */
     public function show(Consulta $consulta)
     {
-        return view("consultas/show",compact('consulta'));
+        return view("consultas/show",[
+            'consulta' => $consulta,
+            'emails'   => Mailman::emails_replicado($consulta->replicado_query)
+        ]);
     }
 
     /**

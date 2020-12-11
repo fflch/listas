@@ -16,23 +16,6 @@ class EmailController extends Controller
         $this->middleware('can:authorized');
     }
 
-    public function emails(Request $request, Lista $lista)
-    {
-        $this->authorize('authorized');
-        $cache = new Cache();
-        $result = $cache->getCached('\Uspdev\Replicado\DB::fetchAll',$lista->replicado_query);
-        $emails = array_column($result, 'codema');
-
-        /* Atualiza Estatística */
-        $lista->stat_replicado_updated = count($emails);
-        $lista->save();
-
-        $emails = implode(', ',$emails);
-        $request->session()->flash('alert-success', "Emails gerado com sucesso: {$lista->description}");
-
-        return view('emails/emails',compact('emails'));
-    }
-
     public function form(Request $request)
     {
         $this->authorize('authorized');
