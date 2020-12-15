@@ -109,11 +109,7 @@ class ConsultaController extends Controller
     public function destroy(Consulta $consulta)
     {
         $this->authorize('admin');
-        /*
-        $consulta->listas()->detach();
         $consulta->delete();
         return redirect('/consultas');
-        */
-        die("Not implemented");
     }
 }

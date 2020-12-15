@@ -16,8 +16,9 @@ class CreateConsultaListaTable extends Migration
         Schema::create('consulta_lista', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->integer('consulta_id')->unsigned();
-            $table->integer('lista_id')->unsigned();
+
+            $table->foreignId('consulta_id')->constrained('consultas')->onDelete('cascade');
+            $table->foreignId('lista_id')->constrained('listas')->onDelete('cascade');
         });
     }
 

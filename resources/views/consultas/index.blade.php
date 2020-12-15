@@ -35,8 +35,8 @@
                 <td>
                     <form action="{{action('\App\Http\Controllers\ConsultaController@destroy', $consulta->id)}}" method="post">
                         {{csrf_field()}}
-                        <input name="_method" type="hidden" value="DELETE">
-                        <button class="delete-item btn btn-danger" type="submit">Deletar</button>
+                        <input name="_method" type="hidden" value="DELETE" >
+                        <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Você tem certeza que deseja apagar?')">Deletar</button>
                     </form>
                 </td>
             </tr>

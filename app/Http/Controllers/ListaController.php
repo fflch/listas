@@ -80,7 +80,8 @@ class ListaController extends Controller
     {
         return view("listas/show",[
             'lista' => $lista,
-            'titles' => Mailman::getArchive($lista)
+            #'titles' => Mailman::getArchive($lista)
+            'titles' => ['Ainda não implementado']
         ]);
     }
 
@@ -138,12 +139,8 @@ class ListaController extends Controller
     public function destroy(Lista $lista)
     {
         $this->middleware('can:admin');
-        /*
-        $lista->consultas()->detach();
         $lista->delete();
         return redirect('/listas');
-        */
-        die("Not implemented");
     }
 
     public function mailman(Request $request, Lista $lista)

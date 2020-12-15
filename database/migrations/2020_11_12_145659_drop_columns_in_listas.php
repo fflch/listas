@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class DropColumnsInListasTables extends Migration
+class DropColumnsInListas extends Migration
 {
     /**
      * Run the migrations.
@@ -14,6 +14,7 @@ class DropColumnsInListasTables extends Migration
     public function up()
     {
         Schema::table('listas', function (Blueprint $table) {
+            $table->dropColumn('replicado_query');
             $table->dropColumn('stat_mailman_before');
             $table->dropColumn('stat_mailman_added');
             $table->dropColumn('stat_mailman_removed');

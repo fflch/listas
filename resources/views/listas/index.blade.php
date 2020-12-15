@@ -19,7 +19,6 @@
         <thead>
             <tr>
                 <th>Título da lista</th>
-                <th>Mailman?</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -29,20 +28,13 @@
             <tr>
                 <td><a href="/listas/{{ $lista->id }}">{{ $lista->description }}</a></td>
                 <td>
-                    @if(empty($lista->url_mailman))
-                        não
-                    @else
-                        sim
-                    @endif
-                </td>
-                <td>
                     <a href="{{action('\App\Http\Controllers\ListaController@edit', $lista->id)}}" class="btn btn-warning">Editar</a>
                 </td>
                 <td>
                     <form action="{{action('\App\Http\Controllers\ListaController@destroy', $lista->id)}}" method="post">
                         {{csrf_field()}}
                         <input name="_method" type="hidden" value="DELETE">
-                        <button class="delete-item btn btn-danger" type="submit">Deletar</button>
+                        <button class="delete-item btn btn-danger" type="submit" onclick="return confirm('Você tem certeza que deseja apagar?')">Deletar</button>
                     </form>
                 </td>
             </tr>
