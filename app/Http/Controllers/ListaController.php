@@ -107,12 +107,13 @@ class ListaController extends Controller
     public function update(Request $request, Lista $lista)
     {
         $this->middleware('can:admin');
-        // Validações
+
         $request->validate([
             'description'     => 'required',
-            'replicado_query' => 'required',
             'emails_allowed' => [new MultipleEmailRule],
             'emails_adicionais' => [new MultipleEmailRule],
+            'url_mailman' => 'required',
+            'pass' => 'required',
         ]);
 
         $lista->name = $request->name;
