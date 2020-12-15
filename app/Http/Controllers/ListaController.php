@@ -80,7 +80,10 @@ class ListaController extends Controller
      */
     public function show(Lista $lista)
     {
-        return view("listas/show",compact('lista'));
+        return view("listas/show",[
+            'lista' => $lista,
+            'titles' => Mailman::getArchive($lista)
+        ]);
     }
 
     /**
@@ -146,14 +149,15 @@ class ListaController extends Controller
     {
         if($request->mailman == 'emails') {
             Mailman::emails($lista);
+            $request->session()->flash('alert-success',"Lista atualizada com sucesso");
         }
 
         if($request->mailman == 'config') {
             Mailman::config($lista);
+            $request->session()->flash('alert-success',"Lista atualizada com sucesso");
         }
-
         
-        die("Not implemented");
+        return redirect("/listas/$lista->id");
     }
     
 }
