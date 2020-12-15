@@ -22,12 +22,11 @@
                 <tbody>
                     @foreach($listas->sortBy('description') as $lista)
                     <tr>
-                        @can('admin')
+                        @auth
                         <td><a href="/listas/{{ $lista->id }}">{{ $lista->description }}</a></td>
                         @else
                         <td>{{ $lista->description }}</td>
-                        @endcan('admin')
-
+                        @endauth
                         <td>{{ $lista->name }}{{ config('listas.mailman_domain') }}</td>
                         </td>
                         <td>

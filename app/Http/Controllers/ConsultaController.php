@@ -8,11 +8,6 @@ use App\Utils\Mailman;
 
 class ConsultaController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('can:admin');
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -20,7 +15,7 @@ class ConsultaController extends Controller
      */
     public function index()
     {
-        $this->authorize('authorized');
+        $this->authorize('admin');
         $consultas = Consulta::all();
         return view('consultas/index',compact('consultas'));
     }
@@ -32,6 +27,7 @@ class ConsultaController extends Controller
      */
     public function create()
     {
+        $this->authorize('admin');
         return view('consultas/create');
     }
 
@@ -43,6 +39,7 @@ class ConsultaController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('admin');
         $request->validate([
             'nome'  => 'required',
             'replicado_query' => 'required',
@@ -63,6 +60,7 @@ class ConsultaController extends Controller
      */
     public function show(Consulta $consulta)
     {
+        $this->authorize('authorized');
         return view("consultas/show",[
             'consulta' => $consulta,
             'emails'   => Mailman::emails_replicado($consulta->replicado_query)
@@ -77,6 +75,7 @@ class ConsultaController extends Controller
      */
     public function edit(Consulta $consulta)
     {
+        $this->authorize('admin');
         return view("consultas/edit",compact('consulta'));
     }
 
@@ -89,6 +88,7 @@ class ConsultaController extends Controller
      */
     public function update(Request $request, Consulta $consulta)
     {
+        $this->authorize('admin');
         $request->validate([
             'nome' => 'required',
             'replicado_query' => 'required',
@@ -108,6 +108,7 @@ class ConsultaController extends Controller
      */
     public function destroy(Consulta $consulta)
     {
+        $this->authorize('admin');
         /*
         $consulta->listas()->detach();
         $consulta->delete();

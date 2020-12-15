@@ -8,16 +8,19 @@
     @include('messages.flash')
     @include('messages.errors')
 
-    <div>
-        <a href="{{action('\App\Http\Controllers\ConsultaController@edit', $consulta->id)}}" class="btn btn-success">Editar</a>
-    </div>
-
+    @can('admin')
+        <div>
+            <a href="{{action('\App\Http\Controllers\ConsultaController@edit', $consulta->id)}}" class="btn btn-success">Editar</a>
+        </div>
+    @endcan('admin')
     <br>
 
     <div class="card">
         <div class="card-header">{{ $consulta->nome }}</div>
         <ul class="list-group list-group-flush">
-            <li class="list-group-item"><b>Consulta (Query)</b>: {{ $consulta->replicado_query }}</li>
+            @can('admin')
+                <li class="list-group-item"><b>Consulta</b>: {{ $consulta->replicado_query }}</li>
+            @endcan('admin')
         </ul>
     </div>
 <br>

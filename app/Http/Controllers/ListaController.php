@@ -13,11 +13,6 @@ use App\Utils\Mailman;
 
 class ListaController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('can:admin');
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -25,6 +20,7 @@ class ListaController extends Controller
      */
     public function index()
     {
+        $this->middleware('can:admin');
         $listas = Lista::all();
         return view('listas/index',compact('listas'));
     }
@@ -36,6 +32,7 @@ class ListaController extends Controller
      */
     public function create()
     {
+        $this->middleware('can:admin');
         $lista = new Lista;
         return view('listas/create', compact('lista'));
     }
@@ -48,6 +45,7 @@ class ListaController extends Controller
      */
     public function store(Request $request)
     {
+        $this->middleware('can:admin');
         // Validações
         $request->validate([
             'description'     => 'required',
@@ -94,6 +92,7 @@ class ListaController extends Controller
      */
     public function edit(Lista $lista)
     {
+       $this->middleware('can:admin');
        return view("listas/edit",compact('lista'));
     }
 
@@ -106,6 +105,7 @@ class ListaController extends Controller
      */
     public function update(Request $request, Lista $lista)
     {
+        $this->middleware('can:admin');
         // Validações
         $request->validate([
             'description'     => 'required',
@@ -137,6 +137,7 @@ class ListaController extends Controller
      */
     public function destroy(Lista $lista)
     {
+        $this->middleware('can:admin');
         /*
         $lista->consultas()->detach();
         $lista->delete();
@@ -147,6 +148,7 @@ class ListaController extends Controller
 
     public function mailman(Request $request, Lista $lista)
     {
+        $this->middleware('can:admin');
         if($request->mailman == 'emails') {
             Mailman::emails($lista);
             $request->session()->flash('alert-success',"Lista atualizada com sucesso");

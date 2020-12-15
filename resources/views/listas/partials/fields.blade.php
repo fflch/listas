@@ -3,9 +3,13 @@
     <div class="card-body">
         <ul class="list-group list-group-flush">
             <li class="list-group-item"><b>name</b>: {{ $lista->name }}</li>
+
+            @can('admin')
             <li class="list-group-item"><b>url_mailman</b>: {{ $lista->url_mailman }}</li>
             <li class="list-group-item"><b>url completa</b>: <a href="{{ $lista->url_mailman }}/{{ $lista->name }}" target="_blank">{{ $lista->url_mailman }}/{{ $lista->name }}</a></li>
             <li class="list-group-item"><b>pass</b>: {{ $lista->pass }}</li>
+            @endcan('admin')
+
             <li class="list-group-item"><b>emails permitidos</b>: {{ $lista->emails_allowed }}</li>
             <li class="list-group-item"><b>emails adicionais</b>: {{ $lista->emails_adicionais }}</li>
             <li class="list-group-item"><b>consultas</b>:

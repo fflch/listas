@@ -19,9 +19,9 @@ return [
             'can'  => 'authorized'
         ],
         [
-            'text' => 'Consultas (Queries)',
+            'text' => 'Consultas',
             'url'  => '/consultas',
-            'can'  => 'authorized'
+            'can'  => 'admin'
         ],
         [
             'text' => 'Gerar Emails',

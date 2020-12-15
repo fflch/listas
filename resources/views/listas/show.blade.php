@@ -7,17 +7,19 @@
 
 <h1>{{ $lista->description }} </h1>
 
-<div>
-    <a href="/listas/{{ $lista->id }}/edit" class="btn btn-success">Editar</a>
-</div>
-<br>
-<div>
-    <form method="POST" action="/mailman/{{ $lista->id }}">
-    @csrf
-    <button type="submit" class="btn btn-warning" name="mailman" value="config">Atualizar configuração da lista</button>
-    <button type="submit" class="btn btn-warning" name="mailman" value="emails">Atualizar emails da lista</button>
-    </form>
-</div>
+@can('admin')
+    <div>
+        <a href="/listas/{{ $lista->id }}/edit" class="btn btn-success">Editar</a>
+    </div>
+    <br>
+    <div>
+        <form method="POST" action="/mailman/{{ $lista->id }}">
+        @csrf
+        <button type="submit" class="btn btn-warning" name="mailman" value="config">Atualizar configuração da lista</button>
+        <button type="submit" class="btn btn-warning" name="mailman" value="emails">Atualizar emails da lista</button>
+        </form>
+    </div>
+@endcan('admin')
 <br>
 <br>
 
