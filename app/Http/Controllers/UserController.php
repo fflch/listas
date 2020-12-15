@@ -12,11 +12,6 @@ use Uspdev\Cache\Cache;
 
 class UserController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('can:authorized');
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -24,6 +19,7 @@ class UserController extends Controller
      */
     public function index()
     {
+        $this->authorize('authorized');
         $users = User::where('role','authorized')->get();
         return view('users.index',compact('users'));
     }
@@ -35,6 +31,7 @@ class UserController extends Controller
      */
     public function create()
     {
+        $this->authorize('authorized');
         return view('users.create');
     }
 
@@ -46,6 +43,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('authorized');
         $request->validate([
             'numero_usp' => ['required',new Numeros_USP($request->numero_usp)],
         ]);

@@ -11,11 +11,6 @@ use App\Models\Lista;
 
 class EmailController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('can:authorized');
-    }
-
     public function form(Request $request)
     {
         $this->authorize('authorized');
