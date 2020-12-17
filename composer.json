@@ -24,7 +24,7 @@
         "laravel/ui": "^3.0",
         "splattner/mailmanapi": "dev-master",
         "uspdev/cache": "^0.7.1",
-        "uspdev/laravel-usp-theme": "dev-master",
+        "uspdev/laravel-usp-theme": "^1.0",
         "uspdev/replicado": "^1.5",
         "uspdev/senhaunica-socialite": "^2.0"
     },
