@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "003478b075ce9f801e4fd9d932f70dde",
+    "content-hash": "c1f7ab4ee52a6987e6c0a1b449bf3497",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -5131,16 +5131,16 @@
         },
         {
             "name": "uspdev/laravel-usp-theme",
-            "version": "1.0.21",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/uspdev/laravel-usp-theme.git",
-                "reference": "50e4e50e804be01779458629763ad3cdcbffeec9"
+                "reference": "fa1bfede72be71bfe5be963a958fb3b43fb1f3f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/uspdev/laravel-usp-theme/zipball/50e4e50e804be01779458629763ad3cdcbffeec9",
-                "reference": "50e4e50e804be01779458629763ad3cdcbffeec9",
+                "url": "https://api.github.com/repos/uspdev/laravel-usp-theme/zipball/fa1bfede72be71bfe5be963a958fb3b43fb1f3f6",
+                "reference": "fa1bfede72be71bfe5be963a958fb3b43fb1f3f6",
                 "shasum": ""
             },
             "type": "library",
@@ -5167,7 +5167,7 @@
                 }
             ],
             "description": "usp theme for laravel",
-            "time": "2020-10-26T14:33:59+00:00"
+            "time": "2020-12-09T18:55:08+00:00"
         },
         {
             "name": "uspdev/replicado",

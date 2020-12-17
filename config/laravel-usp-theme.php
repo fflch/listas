@@ -2,7 +2,6 @@
 
 return [
     'title'=> config('app.name'),
-    'dashboard_url' => config('app.url'),
     'app_url' => config('app.url'),
     'logout_method' => 'POST',
     'logout_url' => config('app.url') . '/logout',
