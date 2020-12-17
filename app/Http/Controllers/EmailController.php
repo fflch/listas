@@ -50,6 +50,5 @@ class EmailController extends Controller
         $request->session()->flash('alert-success', "Emails gerado com sucesso:");
 
         return view('emails/emails',compact('emails'));
-
     }
 }

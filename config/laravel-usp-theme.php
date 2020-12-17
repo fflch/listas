@@ -27,5 +27,11 @@ return [
             'url'  => '/emails',
             'can'  => 'authorized'
         ],
+        [
+            'text' => 'Subscriptions',
+            'url'  => '/subscriptions',
+            'can'  => 'authorized'
+        ],
+        
     ]
 ];

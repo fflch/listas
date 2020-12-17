@@ -40,6 +40,10 @@ class Mailman
         $emails_updated = array_unique($emails_updated);
         $emails_added = $mailman->syncMembers($emails_updated);
 
+        /* Salvamos um cópia dos emails da última sincronização na lista */
+        $lista->emails = implode(',',$emails_updated);
+        $lista->save();
+
          /* Emails da lista */
         $emails_mailman = $mailman->getMemberlist();
 

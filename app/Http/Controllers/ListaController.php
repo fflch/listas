@@ -7,9 +7,9 @@ use Illuminate\Http\Request;
 use splattner\mailmanapi\MailmanAPI;
 use Uspdev\Replicado\DB;
 use Uspdev\Cache\Cache;
-use App\Rules\MultipleEmailRule;
 use App\Utils\Utils;
 use App\Utils\Mailman;
+use App\Http\Requests\ListaRequest;
 
 class ListaController extends Controller
 {
@@ -43,30 +43,13 @@ class ListaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ListaRequest $request)
     {
         $this->authorize('admin');
-        // Validações
-        $request->validate([
-            'description'     => 'required',
-            'emails_allowed' => [new MultipleEmailRule],
-            'emails_adicionais' => [new MultipleEmailRule],
-            'url_mailman' => 'required',
-            'pass' => 'required',
-        ]);
-        $lista = new Lista;
-        $lista->name = $request->name;
-        $lista->url_mailman = $request->url_mailman;
-        $lista->description = $request->description;
-        $lista->pass = $request->pass;
-        $lista->emails_allowed = Utils::trimEmails($request->emails_allowed);
-        $lista->emails_adicionais = Utils::trimEmails($request->emails_adicionais);
-        $lista->save();
+        $livro = Livro::create($request->validated());
 
-        //Salva as consultas relacionadas à lista
+        // Salva as consultas relacionadas à lista
         $lista->consultas()->sync($request->replicado_query);
-
-        $request->session()->flash('alert-success', 'Lista cadastrada com sucesso!');
         return redirect("/listas/{$lista->id}");
     }
 
@@ -105,30 +88,13 @@ class ListaController extends Controller
      * @param  \App\Lista  $lista
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Lista $lista)
+    public function update(ListaRequest $request, Lista $lista)
     {
         $this->authorize('admin');
-
-        $request->validate([
-            'description'     => 'required',
-            'emails_allowed' => [new MultipleEmailRule],
-            'emails_adicionais' => [new MultipleEmailRule],
-            'url_mailman' => 'required',
-            'pass' => 'required',
-        ]);
-
-        $lista->name = $request->name;
-        $lista->url_mailman = $request->url_mailman;
-        $lista->description = $request->description;
-        $lista->pass = $request->pass;
-        $lista->emails_allowed = Utils::trimEmails($request->emails_allowed);
-        $lista->emails_adicionais = Utils::trimEmails($request->emails_adicionais);
-        $lista->save();
+        $lista->update($request->validated());
 
         //Salva as consultas relacionadas à lista
         $lista->consultas()->sync($request->replicado_query);
-        
-        $request->session()->flash('alert-success', 'Lista atualizada com sucesso!');
         return redirect("/listas/{$lista->id}");
     }
 

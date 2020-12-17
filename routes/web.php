@@ -7,8 +7,7 @@ use App\Http\Controllers\ListaController;
 use App\Http\Controllers\ConsultaController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\UserController;
-
-
+use App\Http\Controllers\SubscriptionController;
 
 /* index */
 Route::get('/home', [IndexController::class, 'index'])->name('home');
@@ -30,5 +29,14 @@ Route::post('/emails', [EmailController::class, 'show']);
 
 /* Mailman */
 Route::post('/mailman/{lista}', [ListaController::class, 'mailman']);
+
+/* Subscription */
+Route::get('/subscriptions', [SubscriptionController::class, 'form']);
+Route::post('/subscriptions', [SubscriptionController::class, 'listas']);
+
+# unsubscribe
+Route::post('/unsubscribe/{lista}/{email}', [SubscriptionController::class,'unsubscribe_request']);
+Route::get('/unsubscribe/{lista}/{email}', [SubscriptionController::class,'unsubscribe'])->name('unsubscribe');
+
 
 
