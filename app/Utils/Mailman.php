@@ -20,7 +20,9 @@ class Mailman
         foreach($lista->consultas as $consulta){
             $emails_replicado[] = self::emails_replicado($consulta->replicado_query);
         }
-        $emails_replicado = call_user_func_array('array_merge', $emails_replicado);
+        if(!empty($emails_replicado)){
+            $emails_replicado = call_user_func_array('array_merge', $emails_replicado);
+        }
 
         /* Emails adicionais */
         if(empty($lista->emails_adicionais)) {
@@ -38,8 +40,13 @@ class Mailman
         /* Enviando para mailman */
         $emails_updated = array_map( 'trim', $emails_updated );
         $emails_updated = array_unique($emails_updated);
-        $emails_added = $mailman->syncMembers($emails_updated);
 
+        if(!empty($emails_updated)) {
+            $emails_added = $mailman->syncMembers($emails_updated);
+        } else {
+            $remove = $mailman->getMemberlist();
+            $mailman->removeMembers($remove);
+        }
         /* Salvamos um cópia dos emails da última sincronização na lista */
         $lista->emails = implode(',',$emails_updated);
         $lista->save();
