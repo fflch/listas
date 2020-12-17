@@ -46,7 +46,7 @@ class ListaController extends Controller
     public function store(ListaRequest $request)
     {
         $this->authorize('admin');
-        $livro = Livro::create($request->validated());
+        $lista = Lista::create($request->validated());
 
         // Salva as consultas relacionadas à lista
         $lista->consultas()->sync($request->replicado_query);
