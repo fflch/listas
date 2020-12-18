@@ -26,7 +26,7 @@ class ConsultaRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'nome' => 'required',
+            'nome' => ['required'],
             'replicado_query' => ['required','not_regex:[;]'],
         ];
         if ($this->method() == 'PATCH' || $this->method() == 'PUT'){
