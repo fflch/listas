@@ -8,6 +8,8 @@ use App\Models\Lista;
 class Consulta extends Model
 {
     use HasFactory;
+    protected $guarded = ['id'];
+
     public function listas()
     {
         return $this->belongsToMany(Lista::class)->withTimestamps();
