@@ -30,9 +30,11 @@ class ConsultaRequest extends FormRequest
             'replicado_query' => ['required','not_regex:[;]'],
         ];
         if ($this->method() == 'PATCH' || $this->method() == 'PUT'){
+            array_push($rules['nome'], 'unique:consultas,nome,' .$this->consulta->id);
             array_push($rules['replicado_query'], 'unique:consultas,replicado_query,' .$this->consulta->id);
         }
         else{
+            array_push($rules['nome'], 'unique:consultas');
             array_push($rules['replicado_query'], 'unique:consultas');
         }
         return $rules;
