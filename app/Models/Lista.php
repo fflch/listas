@@ -24,9 +24,5 @@ class Lista extends Model
     public function setEmailsAdicionaisAttribute($value){
         $this->attributes['emails_adicionais'] = Utils::trimEmails($value);
     }
-
-    public static function consultaOptions(){
-        return Consulta::orderBy('nome','asc')->get();
-    }
     
 }
