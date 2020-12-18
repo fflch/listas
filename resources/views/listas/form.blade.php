@@ -8,13 +8,13 @@
     <div class="card-body">
         @foreach(App\Models\Consulta::orderBy('nome','asc')->get() as $consulta)
             @if(old('replicado_query') == '')
-                <input type="checkbox" name="replicado_query[{{$consulta->id}}]" value="{{$consulta->id}}"@foreach($lista->consultas()->get() as $replicado_query) {{ ($consulta->id == $replicado_query->id) ? 'checked' : ''}} @endforeach>
-                <label for="replicado_query[{{$consulta->id}}]">{{ $consulta->nome }} 
+                <input type="checkbox" name="replicado_query[{{$consulta->id}}]" value="{{$consulta->id}}" @foreach($lista->consultas()->get() as $replicado_query) {{ ($consulta->id == $replicado_query->id) ? 'checked' : ''}} @endforeach>
+                <label for="replicado_query[{{$consulta->id}}]">{{ $consulta->nome }}
                 </label><br/>                
             @else
-                <input type="checkbox" name="replicado_query[{{$consulta->id}}]" value="{{$consulta->id}}">
+                <input type="checkbox" name="replicado_query[{{$consulta->id}}]" value="{{$consulta->id}}" {{ (isset(old('replicado_query')[$consulta->id])) ? ((old('replicado_query')[$consulta->id] == $consulta->id) ? 'checked' : '' ) : '' }}>
                 <label for="replicado_query[{{$consulta->id}}]">{{ $consulta->nome }}
-                </label><br/>   
+                </label><br/>
             @endif
         @endforeach
     </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Consulta;
+use App\Http\Requests\ConsultaRequest;
 use Illuminate\Http\Request;
 use App\Utils\Mailman;
 
@@ -37,17 +38,11 @@ class ConsultaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ConsultaRequest $request)
     {
         $this->authorize('admin');
-        $request->validate([
-            'nome'  => 'required',
-            'replicado_query' => 'required',
-        ]);
-        $consulta = new Consulta;
-        $consulta->nome = $request->nome;
-        $consulta->replicado_query = $request->replicado_query;
-        $consulta->save();
+        $validated = $request->validated();
+        $consulta = Consulta::create($validated);
         $request->session()->flash('alert-success', 'Consulta cadastrada com sucesso!');
         return redirect("/consultas/{$consulta->id}");
     }
@@ -86,16 +81,11 @@ class ConsultaController extends Controller
      * @param  \App\Models\Consulta  $consulta
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Consulta $consulta)
+    public function update(ConsultaRequest $request, Consulta $consulta)
     {
         $this->authorize('admin');
-        $request->validate([
-            'nome' => 'required',
-            'replicado_query' => 'required',
-        ]);
-        $consulta->nome = $request->nome;
-        $consulta->replicado_query = $request->replicado_query;
-        $consulta->save();
+        $validated = $request->validated();
+        $consulta->update($validated);
         $request->session()->flash('alert-success', 'Consulta cadastrada com sucesso!');
         return redirect("/consultas/{$consulta->id}");
     }
