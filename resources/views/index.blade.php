@@ -15,6 +15,7 @@
                     <tr>
                         <th>Nome da Lista</th>
                         <th>Lista</th>
+                        <th>Coleções</th>
                         <th>Autorizados</th>
       @can('authorized')<th>Emails adicionais</th>@endcan('authorized')
                     </tr>
@@ -22,12 +23,32 @@
                 <tbody>
                     @foreach($listas->sortBy('description') as $lista)
                     <tr>
-                        @auth
-                        <td><a href="/listas/{{ $lista->id }}">{{ $lista->description }}</a></td>
-                        @else
-                        <td>{{ $lista->description }}</td>
-                        @endauth
-                        <td>{{ $lista->name }}{{ config('listas.mailman_domain') }}</td>
+                        <td>
+                            @auth
+                                <a href="/listas/{{ $lista->id }}">{{ $lista->description }}</a>
+                            @else
+                                {{ $lista->description }}
+                            @endauth
+                        </td>
+
+                        <td>
+                            {{ $lista->name }}{{ config('listas.mailman_domain') }} <br>
+                            {{ $lista->stat_mailman_after > 0 ? 'Total de emails: ' . $lista->stat_mailman_after:'' }}
+                        </td>
+                        <td>
+                            <ul>
+                                @forelse($lista->consultas as $consulta)
+                                    @auth
+                                        <li><a href="/consultas/{{ $consulta->id }}">{{ $consulta->nome }}</a></li>
+                                    @else
+                                        <li>{{ $consulta->nome }}</li>
+                                    @endauth
+                                @empty
+                                    <li>Não há coleções</li>
+                                @endforelse
+                            </ul>
+                        </td>
+                        
                         </td>
                         <td>
                             @if ($lista->emails_allowed != "")
@@ -68,12 +89,29 @@
                 <tbody>
                     @foreach($consultas->sortBy('nome') as $consulta)
                     <tr>
-                        @can('admin')
-                        <td><a href="/consultas/{{ $consulta->id }}">{{ $consulta->nome }}</a></td>
-                        @else
-                        <td>{{ $consulta->nome }}</td>
-                        @endcan('admin')
+                        <td>
+                            @can('admin')
+                                <a href="/consultas/{{ $consulta->id }}">{{ $consulta->nome }}</a>
+                            @else
+                                {{ $consulta->nome }}
+                            @endcan('admin')
+                        </td>
+
+                        <td>
+                            <ul>
+                                @forelse($consulta->listas as $lista)
+                                    @auth
+                                        <li><a href="/listas/{{ $lista->id }}">{{ $lista->name }}</a></li>
+                                    @else
+                                        <li>{{ $lista->name }}</li>
+                                    @endauth
+                                @empty
+                                    <li>Não está associada à nenhuma lista</li>
+                                @endforelse
+                            </ul>
+                        </td>
                     </tr>
+                    
                     @endforeach
                 </tbody>
             </table>
