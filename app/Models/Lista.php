@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Consulta;
 use App\Utils\Utils;
+use Carbon\Carbon;
 
 class Lista extends Model
 {
@@ -23,6 +24,11 @@ class Lista extends Model
 
     public function setEmailsAdicionaisAttribute($value){
         $this->attributes['emails_adicionais'] = Utils::trimEmails($value);
+    }
+
+    public function getStatMailmanDateAttribute($value)
+    {
+        if($value) return Carbon::parse($value)->format('d/m/Y H:i');;
     }
     
 }

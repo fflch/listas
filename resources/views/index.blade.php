@@ -14,6 +14,7 @@
                 <thead>
                     <tr>
                         <th>Nome da Lista</th>
+                        <th>Atualizada em</th>
                         <th>Lista</th>
                         <th>Coleções</th>
                         <th>Autorizados</th>
@@ -30,7 +31,7 @@
                                 {{ $lista->description }}
                             @endcan('authorized')
                         </td>
-
+                        <td>{{ $lista->stat_mailman_date }}</td>
                         <td>
                             {{ $lista->name }}{{ config('listas.mailman_domain') }} <br>
                             {{ $lista->stat_mailman_after > 0 ? 'Total de emails: ' . $lista->stat_mailman_after:'' }}
