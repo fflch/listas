@@ -1,6 +1,7 @@
 <?php
 
 return [
+    'skin' => env('USP_THEME_SKIN', 'uspdev'),
     'title'=> config('app.name'),
     'app_url' => config('app.url'),
     'logout_method' => 'POST',
