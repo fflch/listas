@@ -24,11 +24,11 @@
                     @foreach($listas->sortBy('description') as $lista)
                     <tr>
                         <td>
-                            @auth
+                            @can('authorized')
                                 <a href="/listas/{{ $lista->id }}">{{ $lista->description }}</a>
                             @else
                                 {{ $lista->description }}
-                            @endauth
+                            @endcan('authorized')
                         </td>
 
                         <td>
@@ -38,11 +38,11 @@
                         <td>
                             <ul>
                                 @forelse($lista->consultas as $consulta)
-                                    @auth
+                                    @can('authorized')
                                         <li><a href="/consultas/{{ $consulta->id }}">{{ $consulta->nome }}</a></li>
                                     @else
                                         <li>{{ $consulta->nome }}</li>
-                                    @endauth
+                                    @endcan('authorized')
                                 @empty
                                     <li>Não há coleções</li>
                                 @endforelse
@@ -90,21 +90,21 @@
                     @foreach($consultas->sortBy('nome') as $consulta)
                     <tr>
                         <td>
-                            @can('admin')
+                            @can('authorized')
                                 <a href="/consultas/{{ $consulta->id }}">{{ $consulta->nome }}</a>
                             @else
                                 {{ $consulta->nome }}
-                            @endcan('admin')
+                            @endcan('authorized')
                         </td>
 
                         <td>
                             <ul>
                                 @forelse($consulta->listas as $lista)
-                                    @auth
+                                    @can('authorized')
                                         <li><a href="/listas/{{ $lista->id }}">{{ $lista->name }}</a></li>
                                     @else
                                         <li>{{ $lista->name }}</li>
-                                    @endauth
+                                    @endcan('authorized')
                                 @empty
                                     <li>Não está associada à nenhuma lista</li>
                                 @endforelse

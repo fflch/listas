@@ -39,9 +39,10 @@ class MailmanCommand extends Command
      */
     public function handle()
     {
-        # options: config and emails
+        # Podemos sincronizar: config ou emails
         $options = ['config','emails'];
         $option = $this->argument('option');
+
         # se a option não for fornecida, escolhemos uma aleatoriamente
         if(!$option || !in_array($option,$options)) {
             $option = $options[array_rand($options)];
