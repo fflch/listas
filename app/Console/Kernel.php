@@ -27,8 +27,12 @@ class Kernel extends ConsoleKernel
     {
         $emails = explode(',',config('app.mails_to_send_logs'));
 
-        $schedule->command(MailmanCommand::class)
-            ->everyThreeHours()
+        $schedule->command('mailman emails')
+            ->hourly(5)
+            ->emailOutputOnFailure($emails);
+
+        $schedule->command('mailman config')
+            ->hourlyAt(35)
             ->emailOutputOnFailure($emails);
     }
 
