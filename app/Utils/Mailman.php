@@ -4,7 +4,6 @@ namespace App\Utils;
 
 use splattner\mailmanapi\MailmanAPI;
 use Uspdev\Replicado\DB;
-use Uspdev\Cache\Cache;
 use App\Rules\MultipleEmailRule;
 use App\Models\Lista;
 
@@ -62,8 +61,7 @@ class Mailman
     }
 
     public static function emails_replicado($query){
-        $cache = new Cache();
-        $result = $cache->getCached('\Uspdev\Replicado\DB::fetchAll',$query);
+        $result = \Uspdev\Replicado\DB::fetchAll($query);
         if($result) return array_column($result, 'codema');
         return [];
     }

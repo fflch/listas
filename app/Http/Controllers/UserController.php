@@ -8,7 +8,6 @@ use App\Models\User;
 use Uspdev\Replicado\Pessoa;
 use Uspdev\Replicado\DB;
 use App\Models\Lista;
-use Uspdev\Cache\Cache;
 
 class UserController extends Controller
 {

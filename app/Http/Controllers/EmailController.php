@@ -5,9 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Uspdev\Replicado\DB;
-use Uspdev\Cache\Cache;
 use App\Models\Lista;
-
 
 class EmailController extends Controller
 {
@@ -20,8 +18,6 @@ class EmailController extends Controller
     public function show(Request $request)
     {
         $this->authorize('authorized');
-        $cache = new Cache();
-
         $request->validate([
             'numeros_usp' => 'required'
         ]);
@@ -32,7 +28,7 @@ class EmailController extends Controller
         foreach($numeros_usp as $codpes) {
             $codpes_int = (int) $codpes;
             $query = "SELECT DISTINCT codema FROM LOCALIZAPESSOA WHERE codpes={$codpes_int}";
-            $result = $cache->getCached('\Uspdev\Replicado\DB::fetchAll',$query);
+            $result = \Uspdev\Replicado\DB::fetchAll($query);
             if(empty($result)) array_push($not_found, $codpes);
             else {
                 $to_merge = array_column($result, 'codema');

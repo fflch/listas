@@ -6,7 +6,6 @@ use App\Models\Lista;
 use Illuminate\Http\Request;
 use splattner\mailmanapi\MailmanAPI;
 use Uspdev\Replicado\DB;
-use Uspdev\Cache\Cache;
 use App\Utils\Utils;
 use App\Utils\Mailman;
 use App\Http\Requests\ListaRequest;
