@@ -1,5 +1,16 @@
 <?php
 
+$right_menu = [     
+    [
+        'text' => '<i class="fas fa-hard-hat"></i>',
+        'title' => 'Logs',
+        'target' => '_blank',
+        'url' => config('app.url') . '/logs',
+        'align' => 'right',
+        'can' => 'admin',
+    ],
+];
+
 return [
     'skin' => env('USP_THEME_SKIN', 'uspdev'),
     'title'=> config('app.name'),
@@ -32,7 +43,7 @@ return [
             'text' => 'Subscriptions',
             'url'  => '/subscriptions',
             'can'  => 'authorized'
-        ],
-        
-    ]
+        ],        
+    ],
+    'right_menu' => $right_menu,
 ];

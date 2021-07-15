@@ -38,5 +38,5 @@ Route::post('/subscriptions', [SubscriptionController::class, 'listas']);
 Route::post('/unsubscribe/{lista}/{email}', [SubscriptionController::class,'unsubscribe_request']);
 Route::get('/unsubscribe/{lista}/{email}', [SubscriptionController::class,'unsubscribe'])->name('unsubscribe');
 
-
-
+# Logs  
+Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware('can:admin');
