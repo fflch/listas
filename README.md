@@ -52,9 +52,12 @@
   - O Mailman deverá te notificar, o dono da lista, quando os bounces fazem a inscrição da lista ser desativada: Não
   - O Mailman deverá te notificar, o dono da lista, quando os bounces fizerem um membro ser descadastrado: Não
 
+Atulizando emails da lista de id 3:
 
+    php artisan mailman emails 3
 
-  
+Atulizando configurações da lista de id 3:
 
+  php artisan mailman config 3
 
 
