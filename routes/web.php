@@ -25,12 +25,14 @@ Route::post('/emails', [EmailController::class, 'show']);
 Route::post('/mailman/{lista}', [ListaController::class, 'mailman']);
 
 /* Subscription */
-Route::get('/subscriptions', [SubscriptionController::class, 'form']);
-Route::post('/subscriptions', [SubscriptionController::class, 'listas']);
+Route::get('/subscriptions', [SubscriptionController::class, 'create']);
+Route::post('/subscriptions', [SubscriptionController::class, 'store']);
+
+Route::get('/unsubscribe', [SubscriptionController::class,'index'])->name('unsubscribe');
 
 # unsubscribe
-Route::post('/unsubscribe/{lista}/{email}', [SubscriptionController::class,'unsubscribe_request']);
-Route::get('/unsubscribe/{lista}/{email}', [SubscriptionController::class,'unsubscribe'])->name('unsubscribe');
+//Route::post('/unsubscribe/{lista}/{email}', [SubscriptionController::class,'unsubscribe_request']);
+Route::post('/unsubscribe/{lista}/{email}', [SubscriptionController::class,'unsubscribe']);
 
 # Logs  
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware('can:admin');

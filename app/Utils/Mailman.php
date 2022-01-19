@@ -6,6 +6,7 @@ use splattner\mailmanapi\MailmanAPI;
 use Uspdev\Replicado\DB;
 use App\Rules\MultipleEmailRule;
 use App\Models\Lista;
+use App\Models\Unsubscribe;
 
 class Mailman
 {
@@ -31,6 +32,12 @@ class Mailman
             $emails_adicionais = explode(',',$lista->emails_adicionais);
         }
         $emails_updated = array_merge($emails_replicado,$emails_adicionais);
+
+        /* Emails unsubscribed não podem fazer parte das listas */
+        $emails_unsubscribed = Unsubscribe::where('id_lista', $lista->id)->get(['email'])->toArray();
+        $emails_unsubscribed = array_column($emails_unsubscribed, 'email');
+        $emails_updated = array_diff($emails_updated,$emails_unsubscribed);
+       
 
         /* Emails allowed não podem fazer parte das listas */
         $emails_allowed = explode(',',$lista->emails_allowed);
