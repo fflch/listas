@@ -29,6 +29,8 @@ Route::get('/subscriptions', [SubscriptionController::class, 'create']);
 Route::post('/subscriptions', [SubscriptionController::class, 'store']);
 
 Route::get('/unsubscribe', [SubscriptionController::class,'index'])->name('unsubscribe');
+Route::post('/unsubscribe_request', [SubscriptionController::class,'unsubscribe'])->name('unsubscribe_request');
+
 
 # unsubscribe
 //Route::post('/unsubscribe/{lista}/{email}', [SubscriptionController::class,'unsubscribe_request']);

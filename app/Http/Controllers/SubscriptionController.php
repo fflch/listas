@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Lista;
 use App\Models\Unsubscribe;
 use Illuminate\Support\Facades\URL;
+use App\Utils\Mailman;
 
 class SubscriptionController extends Controller
 {
@@ -38,11 +39,17 @@ class SubscriptionController extends Controller
             $request->validate([
                 'email' => 'required|email'
             ]);
-            $listas = Lista::where('emails', 'LIKE', '%'.$request->email.'%')->get();
+            
+            $unsubscribed_listas = Unsubscribe::where('email', 'LIKE', '%'.$request->email.'%')->get(['id_lista'])->toArray();
+            $listas = Lista::where('emails', 'LIKE', '%'.$request->email.'%')->whereNotIN('id', array_column($unsubscribed_listas, 'id_lista'))->get();
+
+
+            $unsubscribe_form_action = URL::temporarySignedRoute('unsubscribe_request', now()->addMinutes(120));
 
             return view('subscriptions.listas',[
                 'listas' => $listas,
                 'email'  => $request->email,
+                'form_action' => $unsubscribe_form_action
             ]);
            
         } else {
@@ -53,16 +60,23 @@ class SubscriptionController extends Controller
     }
 
 
-    public function unsubscribe(Request $request, Lista $lista, $email){
+    public function unsubscribe(Request $request){
+        
         if ($request->hasValidSignature()) {
-            $unsubscribeModel = Unsubscribe::where('email',$email)->where('id_lista', $lista->id)->first();
-            if(!$unsubscribeModel) $unsubscribeModel = new Unsubscribe;
-            $unsubscribeModel->email = $email;
-            $unsubscribeModel->id_lista = $lista->id;
-            $unsubscribeModel->save();
-            $request->session()->flash('alert-success','Email removido da lista com sucesso');
-            return redirect('/');
+            $listas = $request['id_lista'];
+            foreach($listas as $l){                       
+                $unsubscribe = Unsubscribe::firstOrCreate(
+                    ['id_lista' => (int)$l,
+                     'email'    => $request->email],
+                    ['motivo'   => $request['motivo'.$l]]
+                );
+                $lista = Lista::where('id', (int)$l)->get()->first();
+                Mailman::emails($lista);//atualiza os emails da lista
+                $request->session()->flash('alert-success','Email removido da(s) lista(s) com sucesso!');
+                return redirect('/');
+            }
         } else {
+            dd('url expirada');
             $request->session()->flash('alert-danger',
                 "Url expirada. Tente Novamente");
             return redirect('/subscriptions');

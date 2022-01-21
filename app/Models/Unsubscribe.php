@@ -9,4 +9,6 @@ class Unsubscribe extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['id_lista', 'email', 'motivo'];
+
 }
