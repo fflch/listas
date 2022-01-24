@@ -63,20 +63,32 @@ class SubscriptionController extends Controller
     public function unsubscribe(Request $request){
         
         if ($request->hasValidSignature()) {
+            $request->validate([
+                'id_lista' => 'required|int',
+                'email' => 'required|email',
+            ],
+            [
+                'id_lista.required' => 'Selecione ao menos uma lista para se desinscrever.'
+            ]);
+            
             $listas = $request['id_lista'];
-            foreach($listas as $l){                       
+            foreach($listas as $l){               
+                $lista = Lista::where('id', (int)$l)->get()->first();        
+                if($lista == null){
+                    $request->session()->flash('alert-danger','Ocorreu um erro durante a desinscrição, lista não encontrada.');
+                    return redirect('/');
+                }
                 $unsubscribe = Unsubscribe::firstOrCreate(
                     ['id_lista' => (int)$l,
                      'email'    => $request->email],
                     ['motivo'   => $request['motivo'.$l]]
                 );
-                $lista = Lista::where('id', (int)$l)->get()->first();
+                
                 Mailman::emails($lista);//atualiza os emails da lista
                 $request->session()->flash('alert-success','Email removido da(s) lista(s) com sucesso!');
                 return redirect('/');
             }
         } else {
-            dd('url expirada');
             $request->session()->flash('alert-danger',
                 "Url expirada. Tente Novamente");
             return redirect('/subscriptions');
