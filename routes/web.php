@@ -7,6 +7,7 @@ use App\Http\Controllers\ConsultaController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SubscriptionController;
+use App\Mail\Unsubscribe;
 
 /* index */
 Route::get('/home', [IndexController::class, 'index'])->name('home');
@@ -35,6 +36,10 @@ Route::post('/unsubscribe_request', [SubscriptionController::class,'unsubscribe'
 # unsubscribe
 //Route::post('/unsubscribe/{lista}/{email}', [SubscriptionController::class,'unsubscribe_request']);
 Route::post('/unsubscribe/{lista}/{email}', [SubscriptionController::class,'unsubscribe']);
+Route::get('/unsubscribe_mail', function(){
+    return new Unsubscribe('ricardo_santos@usp.br', 'http://127.0.0.1:8000/subscriptions');
+    //Mail::send(new Unsubscribe());
+});
 
 # Logs  
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware('can:admin');

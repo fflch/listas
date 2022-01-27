@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Lista;
 use App\Models\Unsubscribe;
+use App\Mail\Unsubscribe as UnsubscribeModel;
 use Illuminate\Support\Facades\URL;
 use App\Utils\Mailman;
+use Illuminate\Support\Facades\Mail;
 
 class SubscriptionController extends Controller
 {
@@ -22,14 +24,12 @@ class SubscriptionController extends Controller
             'email' => 'required|email'
         ]);
 
-        $unsubscribe = URL::temporarySignedRoute('unsubscribe', now()->addMinutes(120), [
+        $unsubscribe_link = URL::temporarySignedRoute('unsubscribe', now()->addMinutes(120), [
             'email' => $request->email,
         ]);
-        dd($unsubscribe);
-        #Mail::send(new UnsubscribeMail($unsubscribe,$lista,$email));
-        $request->session()->flash('alert-info','Informações para sair da lista enviadas por email');
-        
-       
+        Mail::send(new UnsubscribeModel($request->email, $unsubscribe_link));
+        $request->session()->flash('alert-info','Para continuar com a desisncrição da lista, por favor consulte sua caixa de entrada ou spam em seu email.');
+        return redirect('/');
     }
 
     public function index(Request $request)
@@ -64,7 +64,7 @@ class SubscriptionController extends Controller
         
         if ($request->hasValidSignature()) {
             $request->validate([
-                'id_lista' => 'required|int',
+                'id_lista' => 'required',
                 'email' => 'required|email',
             ],
             [
