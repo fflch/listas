@@ -14,7 +14,7 @@ class SubscriptionController extends Controller
 {
     public function create(Request $request)
     {
-       
+      
         return view('subscriptions/form');
     }
 
@@ -27,6 +27,7 @@ class SubscriptionController extends Controller
         $unsubscribe_link = URL::temporarySignedRoute('unsubscribe', now()->addMinutes(120), [
             'email' => $request->email,
         ]);
+        
         Mail::send(new UnsubscribeModel($request->email, $unsubscribe_link));
         $request->session()->flash('alert-info','Para continuar com a desisncrição da lista, por favor consulte sua caixa de entrada ou spam em seu email.');
         return redirect('/');
