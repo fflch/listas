@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Lista;
 use App\Models\Unsubscribe;
-use App\Mail\Unsubscribe as UnsubscribeModel;
+use App\Mail\Unsubscribe as UnsubscribeMail;
 use Illuminate\Support\Facades\URL;
 use App\Utils\Mailman;
 use Illuminate\Support\Facades\Mail;
@@ -28,7 +28,7 @@ class SubscriptionController extends Controller
             'email' => $request->email,
         ]);
         
-        Mail::send(new UnsubscribeModel($request->email, $unsubscribe_link));
+        Mail::send(new UnsubscribeMail($request->email, $unsubscribe_link));
         $request->session()->flash('alert-info','Para continuar com a desisncrição da lista, por favor consulte sua caixa de entrada ou spam em seu email.');
         return redirect('/');
     }
