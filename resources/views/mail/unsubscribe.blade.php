@@ -37,7 +37,7 @@ table.action .button-primary{
 		<tr>
 			<td rowspan="2">
 				<a class="fflch-logo-link" href="{{ config('app.url')}}">
-			  		<img class="fflch-logo-img" width="100px" height="32px" src="https://listas.fflch.usp.br/vendor/laravel-usp-theme/skins/fflch/images/logo_fflch.png">
+			  		<img class="fflch-logo-img" width="100px" height="32px" src="https://listas.fflch.usp.br/vendor/laravel-usp-theme/skins/fflch/images/logo_fflch.png"  alt="Logo da FFLCH">
 				</a>
 			</td>
 			<td>
