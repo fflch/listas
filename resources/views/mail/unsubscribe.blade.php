@@ -23,6 +23,9 @@ table.action .button-primary{
 	border-color: rgb(39, 62, 116);
 	background-color: rgb(39, 62, 116);
 }
+.body .content-cell h1, .body .content-cell a, .body .content-cell p{
+	text-align: justify;
+} 
 </style>
 
 @component('mail::layout')
@@ -57,7 +60,7 @@ table.action .button-primary{
 # Desinscrição
 
 Olá, recebemos a solicitação da sua desinscrição nas listas de e-mail da FFLCH. <br>
-Para seguir com o processo, clique no botão abaixo ou acesse a url {{$unsubscribe_link}}.
+Para seguir com o processo, clique no botão abaixo ou acesse a url: {{$unsubscribe_link}}.
 
 
 @component('mail::button', ['url' => $unsubscribe_link])
