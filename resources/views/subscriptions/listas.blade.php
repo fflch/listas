@@ -19,7 +19,7 @@
                     Nome da lista
                 </th>
                 <th>
-                    Motivo da desisncrição
+                    Motivo da desinscrição
                 </th>
             </tr>
         </thead>

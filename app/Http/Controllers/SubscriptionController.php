@@ -24,12 +24,18 @@ class SubscriptionController extends Controller
             'email' => 'required|email'
         ]);
 
+        $listas = Lista::where('emails', 'LIKE', '%'.$request->email.'%')->get();
+        if(sizeof($listas) == 0){
+            $request->session()->flash('alert-danger','O email '.$request->email.' não consta em nenhuma lista.');
+            return redirect('/');
+        }
+
         $unsubscribe_link = URL::temporarySignedRoute('unsubscribe', now()->addMinutes(120), [
             'email' => $request->email,
         ]);
         
         Mail::send(new UnsubscribeMail($request->email, $unsubscribe_link));
-        $request->session()->flash('alert-info','Para continuar com a desisncrição da lista, por favor consulte sua caixa de entrada ou spam em seu email.');
+        $request->session()->flash('alert-info','Para continuar com a desinscrição da lista, por favor consulte sua caixa de entrada ou spam em seu email.');
         return redirect('/');
     }
 
@@ -43,12 +49,15 @@ class SubscriptionController extends Controller
             
             $unsubscribed_listas = Unsubscribe::where('email', 'LIKE', '%'.$request->email.'%')->get(['id_lista'])->toArray();
             $listas = Lista::where('emails', 'LIKE', '%'.$request->email.'%')->whereNotIN('id', array_column($unsubscribed_listas, 'id_lista'))->get();
+            $unsubscribed_listas = Lista::where('emails', 'LIKE', '%'.$request->email.'%')->whereIN('id', array_column($unsubscribed_listas, 'id_lista'))->get();
+
 
 
             $unsubscribe_form_action = URL::temporarySignedRoute('unsubscribe_request', now()->addMinutes(120));
 
             return view('subscriptions.listas',[
                 'listas' => $listas,
+                'unsubscribed_listas' => $unsubscribed_listas,
                 'email'  => $request->email,
                 'form_action' => $unsubscribe_form_action
             ]);
