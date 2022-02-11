@@ -25,7 +25,8 @@ class SubscriptionController extends Controller
         ]);
 
         $listas = Lista::where('emails', 'LIKE', '%'.$request->email.'%')->get();
-        if(sizeof($listas) == 0){
+        $unsubscribed_listas = Unsubscribe::where('email', 'LIKE', '%'.$request->email.'%')->get();
+        if(sizeof($listas) == 0 && sizeof($unsubscribed_listas) == 0){
             $request->session()->flash('alert-danger','O email '.$request->email.' não consta em nenhuma lista.');
             return redirect('/');
         }
@@ -35,7 +36,7 @@ class SubscriptionController extends Controller
         ]);
         
         Mail::send(new UnsubscribeMail($request->email, $unsubscribe_link));
-        $request->session()->flash('alert-info','Para continuar com a desinscrição da lista, por favor consulte sua caixa de entrada ou spam em seu email.');
+        $request->session()->flash('alert-info','Para continuar com o gerenciamento de insrições, por favor, consulte sua caixa de entrada ou spam em seu email.');
         return redirect('/');
     }
 
@@ -47,12 +48,14 @@ class SubscriptionController extends Controller
                 'email' => 'required|email'
             ]);
             
-            $unsubscribed_listas = Unsubscribe::where('email', 'LIKE', '%'.$request->email.'%')->get(['id_lista'])->toArray();
-            $listas = Lista::where('emails', 'LIKE', '%'.$request->email.'%')->whereNotIN('id', array_column($unsubscribed_listas, 'id_lista'))->get();
-            $unsubscribed_listas = Lista::where('emails', 'LIKE', '%'.$request->email.'%')->whereIN('id', array_column($unsubscribed_listas, 'id_lista'))->get();
-
-
-
+            $unsubscribed_listas = \DB::table('listas')
+                ->join('unsubscribes', 'listas.id', '=', 'unsubscribes.id_lista')
+                ->where('unsubscribes.email', 'LIKE', '%'.$request->email.'%')
+                ->get(['listas.id', 'listas.description', 'listas.name','unsubscribes.motivo' ]);
+            
+            $listas = Lista::where('emails', 'LIKE', '%'.$request->email.'%')->get();
+            
+            
             $unsubscribe_form_action = URL::temporarySignedRoute('unsubscribe_request', now()->addMinutes(120));
 
             return view('subscriptions.listas',[
@@ -64,7 +67,7 @@ class SubscriptionController extends Controller
            
         } else {
             $request->session()->flash('alert-danger',
-                "Url de desincrição expirada, crie uma url nova!");
+                "Url de gerenciamento de inscrição expirada, por favor, crie uma url nova.");
             return redirect('/');
         }
     }
@@ -73,16 +76,25 @@ class SubscriptionController extends Controller
     public function unsubscribe(Request $request){
         
         if ($request->hasValidSignature()) {
-            $request->validate([
-                'id_lista' => 'required',
-                'email' => 'required|email',
-            ],
-            [
-                'id_lista.required' => 'Selecione ao menos uma lista para se desinscrever.'
-            ]);
+            $request->validate(['email' => 'required|email']);
             
-            $listas = $request['id_lista'];
-            foreach($listas as $l){               
+            $unsubscribed_listas = Unsubscribe::where('email', 'LIKE', '%'.$request->email.'%')->get()->toArray();
+            $unsubscribed_listas = array_column($unsubscribed_listas, 'id_lista');
+            $listas = $request['id_lista'] ?? [-1];
+            
+            $remove_unsubscribe = Unsubscribe::where('email', 'LIKE', '%'.$request->email.'%')->whereNotIn('id_lista', $listas)->get(['id', 'id_lista'])->toArray();
+            
+            foreach($remove_unsubscribe as $remove){
+                Unsubscribe::where('id', $remove['id'])->delete();
+                Mailman::emails(Lista::where('id', $remove['id_lista'])->get()->first());//atualiza os emails da lista
+
+                $request->session()->flash('alert-success','Alterações feitas com sucesso!');
+            }
+            
+            foreach($listas as $l){   
+                if($l == -1){
+                    return redirect('/');
+                }            
                 $lista = Lista::where('id', (int)$l)->get()->first();        
                 if($lista == null){
                     $request->session()->flash('alert-danger','Ocorreu um erro durante a desinscrição, lista não encontrada.');
@@ -90,14 +102,15 @@ class SubscriptionController extends Controller
                 }
                 $unsubscribe = Unsubscribe::firstOrCreate(
                     ['id_lista' => (int)$l,
-                     'email'    => $request->email],
-                    ['motivo'   => $request['motivo'.$l]]
+                    'email'    => $request->email]
                 );
-                
-                Mailman::emails($lista);//atualiza os emails da lista
-                $request->session()->flash('alert-success','Email removido da(s) lista(s) com sucesso!');
-                return redirect('/');
+                $unsubscribe->motivo = $request['motivo'.$l];
+                $unsubscribe->save();
+        
+                Mailman::emails($lista);//atualiza os emails da lista    
             }
+            $request->session()->flash('alert-success','Alterações feitas com sucesso!');
+            return redirect('/');
         } else {
             $request->session()->flash('alert-danger',
                 "Url expirada. Tente Novamente");

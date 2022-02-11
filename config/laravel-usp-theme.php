@@ -40,7 +40,7 @@ return [
             'can'  => 'authorized'
         ],
         [
-            'text' => 'Desinscrever',
+            'text' => 'Gerenciar Inscrições',
             'url'  => '/subscriptions',
         ],        
     ],

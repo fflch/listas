@@ -27,7 +27,7 @@ class Unsubscribe extends Mailable
      */
     public function build()
     {
-        $this->subject('Solicitação de desinscrição em listas de emails');
+        $this->subject('Solicitação do gerenciamento de inscrições das listas de emails FFLCH');
         $this->to($this->to_email, '');
         $this->from(config('mail.from.address'));
         return $this->markdown('mail.unsubscribe', ['unsubscribe_link' => $this->unsubscribe_link]);

@@ -8,7 +8,7 @@
 <h3>Listas encontradas:</h3>
 <br>
 
-@if(sizeof($listas) > 0)
+@if(sizeof($listas) > 0 || sizeof($unsubscribed_listas) > 0)
 <form method="POST" action="{{$form_action}}">
     @csrf
     <input type="hidden" name="email" value="{{$email}}">
@@ -35,6 +35,19 @@
                 </td>
             </tr>
         @endforeach
+        @foreach ($unsubscribed_listas as $unsubscribed_lista)
+            <tr>
+                <td>
+                    <input  type="checkbox" value="{{$unsubscribed_lista->id }}" name="id_lista[]" id="idLista{{$unsubscribed_lista->id }}" checked>   
+                    <label for="idLista{{$unsubscribed_lista->id }}">{{$unsubscribed_lista->description }} - {{$unsubscribed_lista->name}}</label></td>
+                <td>
+                    <div class="form-group">
+                        <textarea class="form-control" id="motivo{{$unsubscribed_lista->id }}" name="motivo{{$unsubscribed_lista->id }}"  rows="2">{{$unsubscribed_lista->motivo }}</textarea>
+                    </div>
+                </td>
+            </tr>
+        @endforeach
+        
     </table>
     <br>
     <button type="submit" class="btn btn-danger mb-2">Solicitar desinscrição das listas selecionadas </button>

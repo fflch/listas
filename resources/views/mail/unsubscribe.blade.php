@@ -19,13 +19,17 @@ table td.header, table td.header a , table.footer td p  {
 table.action, table.action table{
 	background-color: transparent;
 } 
-table.action .button-primary{
+.body .content-cell h1{
+	text-align: center;
+}
+.body .content-cell a, .body .content-cell p{
+	color: rgb(23, 33, 57);
+} 
+.body .content-cell table.action .button-primary{
 	border-color: rgb(39, 62, 116);
 	background-color: rgb(39, 62, 116);
+	color: #fff;
 }
-.body .content-cell h1, .body .content-cell a, .body .content-cell p{
-	text-align: justify;
-} 
 </style>
 
 @component('mail::layout')
@@ -57,15 +61,21 @@ table.action .button-primary{
 @endslot
 
 {{-- Body --}}
-# Desinscrição
+# Gerenciamento de Inscrições
 
-Olá, recebemos a solicitação da sua desinscrição nas listas de e-mail da FFLCH. <br>
-Para seguir com o processo, clique no botão abaixo ou acesse a url: {{$unsubscribe_link}}.
-
+ 	  	 
+Olá, <br>	 
+Clique no botão para acessar o gerenciamento de inscrições do seu e-mail no sistema de listas da FFLCH. 
 
 @component('mail::button', ['url' => $unsubscribe_link])
-Desinscrever-se
+Gerenciar minhas inscrições
 @endcomponent
+
+O botão não está funcionando? Copie a URL abaixo e cole-a no seu navegador: <br>
+{{$unsubscribe_link}}
+
+
+
 
 
 {{-- Footer --}}
