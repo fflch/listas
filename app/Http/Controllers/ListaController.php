@@ -46,7 +46,7 @@ class ListaController extends Controller
     {
         $this->authorize('admin');
         $lista = Lista::create($request->validated());
-
+       
         // Salva as consultas relacionadas à lista
         $lista->consultas()->sync($request->replicado_query);
         return redirect("/listas/{$lista->id}");
@@ -91,7 +91,7 @@ class ListaController extends Controller
     {
         $this->authorize('admin');
         $lista->update($request->validated());
-
+       
         //Salva as consultas relacionadas à lista
         $lista->consultas()->sync($request->replicado_query);
         return redirect("/listas/{$lista->id}");

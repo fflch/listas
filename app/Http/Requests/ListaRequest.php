@@ -28,6 +28,8 @@ class ListaRequest extends FormRequest
             'description'     => 'required',
             'emails_allowed' => [new MultipleEmailRule],
             'emails_adicionais' => [new MultipleEmailRule],
+            'url_externa' => 'string',
+            'token' => 'string',
             'url_mailman' => 'required',
             'pass' => 'required',
             'name' => ['required']
