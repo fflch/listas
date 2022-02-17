@@ -7,11 +7,30 @@ use Uspdev\Replicado\DB;
 use App\Rules\MultipleEmailRule;
 use App\Models\Lista;
 use App\Models\Unsubscribe;
+use Illuminate\Support\Facades\Http;
 
 class Mailman
 {
     public static function emails(Lista $lista)
     {
+        //capturando emails do endpoint
+        if(!empty($lista->url_externa) && !empty($lista->token)){
+            $response = Http::get($lista->url_externa);
+            dd($response->body());
+
+            $newresponse = $basicauth->request(
+            'GET',
+            'api/1/curriculum',
+            ['debug'   => true], 
+            ['headers' => 
+                [
+                    'Authorization' => "Basic {$credentials},Bearer {$acceso->access_token}"
+                ]
+            ]
+            )->getBody()->getContents();
+        }
+
+
         $url = $lista->url_mailman . '/' . $lista->name;
         $mailman = new MailmanAPI($url,$lista->pass,false);
 

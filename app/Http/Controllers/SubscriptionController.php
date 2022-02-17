@@ -86,7 +86,7 @@ class SubscriptionController extends Controller
             
             foreach($remove_unsubscribe as $remove){
                 Unsubscribe::where('id', $remove['id'])->delete();
-                Mailman::emails(Lista::where('id', $remove['id_lista'])->get()->first());//atualiza os emails da lista
+                //Mailman::emails(Lista::where('id', $remove['id_lista'])->get()->first());//atualiza os emails da lista --> TEM QUE MELHORAR A PERFORMANCE
 
                 $request->session()->flash('alert-success','Alterações feitas com sucesso!');
             }
@@ -107,7 +107,7 @@ class SubscriptionController extends Controller
                 $unsubscribe->motivo = $request['motivo'.$l];
                 $unsubscribe->save();
         
-                Mailman::emails($lista);//atualiza os emails da lista    
+                //Mailman::emails($lista);//atualiza os emails da lista --> TEM QUE MELHORAR A PERFORMANCE 
             }
             $request->session()->flash('alert-success','Alterações feitas com sucesso!');
             return redirect('/');
