@@ -7,32 +7,16 @@ use Uspdev\Replicado\DB;
 use App\Rules\MultipleEmailRule;
 use App\Models\Lista;
 use App\Models\Unsubscribe;
-use Illuminate\Support\Facades\Http;
+use GuzzleHttp\Client;
 
 class Mailman
 {
     public static function emails(Lista $lista)
     {
-        //capturando emails do endpoint
-        if(!empty($lista->url_externa) && !empty($lista->token)){
-            $response = Http::get($lista->url_externa);
-            dd($response->body());
-
-            $newresponse = $basicauth->request(
-            'GET',
-            'api/1/curriculum',
-            ['debug'   => true], 
-            ['headers' => 
-                [
-                    'Authorization' => "Basic {$credentials},Bearer {$acceso->access_token}"
-                ]
-            ]
-            )->getBody()->getContents();
-        }
-
-
         $url = $lista->url_mailman . '/' . $lista->name;
         $mailman = new MailmanAPI($url,$lista->pass,false);
+
+        $exception = false;//flag para verificar/retornar erro durante a requisição dos emails da fonte externa.
 
         /* Emails do replicado */
         $emails_replicado = []; 
@@ -52,6 +36,26 @@ class Mailman
         }
         $emails_updated = array_merge($emails_replicado,$emails_adicionais);
 
+        /* Emails da fonte externa (API) */
+        if(!empty($lista->url_externa) && !empty($lista->token)){
+            $client = new Client();
+            try {
+                $response = $client->get($lista->url_externa, [               
+                    'headers' => [
+                        'Authorization'     => $lista->token
+                    ],
+                    'timeout'  => 2.0,
+                ]);
+                if ($response->getBody()) {
+                    $json = json_decode($response->getBody(), true);
+                    $endpoint_emails =  is_array($json) ? $json  : [];
+                    $emails_updated = array_merge($emails_updated,$endpoint_emails);
+                }
+            } catch(\Exception $e) {
+                $exception = $e->getMessage();
+            }
+        }
+        
         /* Emails unsubscribed não podem fazer parte das listas */
         $emails_unsubscribed = Unsubscribe::where('id_lista', $lista->id)->get(['email'])->toArray();
         $emails_unsubscribed = array_column($emails_unsubscribed, 'email');
@@ -84,6 +88,8 @@ class Mailman
         $lista->stat_mailman_after = count($emails_mailman);
         $lista->stat_mailman_date = date('Y-m-d H:i:s');
         $lista->save();
+
+        return $exception ? $exception : false;
     }
 
     public static function emails_replicado($query){
