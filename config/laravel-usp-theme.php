@@ -40,9 +40,8 @@ return [
             'can'  => 'authorized'
         ],
         [
-            'text' => 'Subscriptions',
+            'text' => 'Gerenciar Inscrições',
             'url'  => '/subscriptions',
-            'can'  => 'authorized'
         ],        
     ],
     'right_menu' => $right_menu,

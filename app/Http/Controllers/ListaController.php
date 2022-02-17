@@ -46,7 +46,7 @@ class ListaController extends Controller
     {
         $this->authorize('admin');
         $lista = Lista::create($request->validated());
-
+       
         // Salva as consultas relacionadas à lista
         $lista->consultas()->sync($request->replicado_query);
         return redirect("/listas/{$lista->id}");
@@ -91,7 +91,7 @@ class ListaController extends Controller
     {
         $this->authorize('admin');
         $lista->update($request->validated());
-
+       
         //Salva as consultas relacionadas à lista
         $lista->consultas()->sync($request->replicado_query);
         return redirect("/listas/{$lista->id}");
@@ -114,8 +114,12 @@ class ListaController extends Controller
     {
         $this->authorize('admin');
         if($request->mailman == 'emails') {
-            Mailman::emails($lista);
-            $request->session()->flash('alert-success',"Lista atualizada com sucesso");
+            $hasError = Mailman::emails($lista);
+            if($hasError){
+                $request->session()->flash('alert-warning',"Emails atualizados com sucesso, exceto os emails da fonte externa. Ocorreu um erro durante a requisição, verifique se a url e o token estão corretos. Detalhes do erro: " . $hasError);
+            }else{
+                $request->session()->flash('alert-success',"Emails da lista atualizados com sucesso");
+            }
         }
 
         if($request->mailman == 'config') {

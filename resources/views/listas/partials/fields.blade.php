@@ -12,6 +12,7 @@
 
             <li class="list-group-item"><b>emails permitidos</b>: {{ $lista->emails_allowed }}</li>
             <li class="list-group-item"><b>emails adicionais</b>: {{ $lista->emails_adicionais }}</li>
+            <li class="list-group-item"><b>fonte externa (API)</b>: {{ $lista->url_externa }} ({{$lista->token}})</li>
             <li class="list-group-item"><b>consultas</b>:
                 <ul>
                     @foreach($lista->consultas()->get() as $consulta)

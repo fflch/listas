@@ -43,6 +43,11 @@
             <label for="emails_adicionais">Emails adicionais</label>
             <textarea id="emails_adicionais" class="form-control" name="emails_adicionais">{{ $lista->emails_adicionais ?? old('emails_adicionais')  }}</textarea>
         </div>
+        <div class="form-group">
+            <label for="emails_adicionais">Fonte externa (API)</label>
+            <input type="text" class="form-control" name="url_externa" value="{{ $lista->url_externa ?? old('url_externa')  }}" placeholder="URL externa"> <br>
+            <input type="text" class="form-control" name="token" value="{{ $lista->token ?? old('token')  }}" placeholder="Token de segurança">
+        </div>
     </div>
 </div>
 <br>
