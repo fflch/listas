@@ -11,8 +11,8 @@
 <p>
 Selecione a lista para solicitar sua desinscrição. Para se inscrever novamente, remova seu check (não precisa apagar o motivo da desinscrição).  
 <br>
-<input  type="checkbox" value="" name="">: Listas inscritas &nbsp;&nbsp;  
-<input  type="checkbox" value="" name="" checked> Listas desinscritas. 
+<input  type="checkbox" value="" name="" disabled>: Listas inscritas &nbsp;&nbsp;  
+<input  type="checkbox" value="" name="" checked disabled> Listas desinscritas. 
 </p>
 
 @if(sizeof($listas) > 0 || sizeof($unsubscribed_listas) > 0)
