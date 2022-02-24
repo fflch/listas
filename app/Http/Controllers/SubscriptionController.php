@@ -53,7 +53,8 @@ class SubscriptionController extends Controller
                 ->where('unsubscribes.email', 'LIKE', '%'.$request->email.'%')
                 ->get(['listas.id', 'listas.description', 'listas.name','unsubscribes.motivo' ]);
             
-            $listas = Lista::where('emails', 'LIKE', '%'.$request->email.'%')->get();
+            $id_unsubscribed_listas = array_column(@json_decode(json_encode($unsubscribed_listas), true), 'id');
+            $listas = Lista::where('emails', 'LIKE', '%'.$request->email.'%')->whereNotIn('id', $id_unsubscribed_listas)->get();
             
             
             $unsubscribe_form_action = URL::temporarySignedRoute('unsubscribe_request', now()->addMinutes(120));
@@ -79,18 +80,20 @@ class SubscriptionController extends Controller
             $request->validate(['email' => 'required|email']);
             
             $unsubscribed_listas = Unsubscribe::where('email', 'LIKE', '%'.$request->email.'%')->get()->toArray();
+            
             $unsubscribed_listas = array_column($unsubscribed_listas, 'id_lista');
+            
             $listas = $request['id_lista'] ?? [-1];
             
             $remove_unsubscribe = Unsubscribe::where('email', 'LIKE', '%'.$request->email.'%')->whereNotIn('id_lista', $listas)->get(['id', 'id_lista'])->toArray();
-            
+          
             foreach($remove_unsubscribe as $remove){
                 Unsubscribe::where('id', $remove['id'])->delete();
                 //Mailman::emails(Lista::where('id', $remove['id_lista'])->get()->first());//atualiza os emails da lista --> TEM QUE MELHORAR A PERFORMANCE
 
                 $request->session()->flash('alert-success','Alterações feitas com sucesso!');
             }
-            
+           
             foreach($listas as $l){   
                 if($l == -1){
                     return redirect('/');
@@ -104,6 +107,7 @@ class SubscriptionController extends Controller
                     ['id_lista' => (int)$l,
                     'email'    => $request->email]
                 );
+               
                 $unsubscribe->motivo = $request['motivo'.$l];
                 $unsubscribe->save();
         
