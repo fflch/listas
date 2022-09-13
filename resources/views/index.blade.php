@@ -18,7 +18,6 @@
                         <th>Lista</th>
                         <th>Coleções</th>
                         <th>Autorizados</th>
-      @can('authorized')<th>Emails adicionais</th>@endcan('authorized')
                     </tr>
                 </thead>
                 <tbody>
@@ -60,17 +59,6 @@
                               </ul>
                             @endif
                         </td>
-                        @can('authorized')
-                        <td>
-                            @if ($lista->emails_adicionais != "")
-                              <ul>
-                              @foreach(explode(',', $lista->emails_adicionais) as $email)
-                                <li>{{$email}}</li>
-                              @endforeach
-                              </ul>
-                            @endif
-                        </td>
-                        @endcan('authorized')
                     </tr>
                     @endforeach
 
