@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Utils;
 
@@ -19,7 +19,7 @@ class Mailman
         $exception = false;//flag para verificar/retornar erro durante a requisição dos emails da fonte externa.
 
         /* Emails do replicado */
-        $emails_replicado = []; 
+        $emails_replicado = [];
         foreach($lista->consultas as $consulta){
             $emails_replicado[] = self::emails_replicado($consulta->replicado_query);
         }
@@ -40,7 +40,7 @@ class Mailman
         if(!empty($lista->url_externa) && !empty($lista->token)){
             $client = new Client();
             try {
-                $response = $client->get($lista->url_externa, [               
+                $response = $client->get($lista->url_externa, [
                     'headers' => [
                         'Authorization'     => $lista->token
                     ],
@@ -55,12 +55,12 @@ class Mailman
                 $exception = $e->getMessage();
             }
         }
-        
+
         /* Emails unsubscribed não podem fazer parte das listas */
         $emails_unsubscribed = Unsubscribe::where('id_lista', $lista->id)->get(['email'])->toArray();
         $emails_unsubscribed = array_column($emails_unsubscribed, 'email');
         $emails_updated = array_diff($emails_updated,$emails_unsubscribed);
-       
+
 
         /* Emails allowed não podem fazer parte das listas */
         $emails_allowed = explode(',',$lista->emails_allowed);
@@ -70,11 +70,14 @@ class Mailman
         $emails_updated = array_map( 'trim', $emails_updated );
         $emails_updated = array_unique($emails_updated);
 
+        $remove = $mailman->getMemberlist();
+        $mailman->removeMembers($remove);
+
         if(!empty($emails_updated)) {
-            $emails_added = $mailman->syncMembers($emails_updated);
-        } else {
-            $remove = $mailman->getMemberlist();
-            $mailman->removeMembers($remove);
+            $emails_chunk = array_chunk($emails_updated, 1000);
+            foreach ( $emails_chunk as $emails ){
+                $mailman->addMembers($emails);
+            }
         }
         /* Salvamos um cópia dos emails da última sincronização na lista */
         $lista->emails = implode(',',$emails_updated);
