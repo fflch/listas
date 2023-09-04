@@ -26,7 +26,6 @@ class Mailman
         if(!empty($emails_replicado)){
             $emails_replicado = call_user_func_array('array_merge', $emails_replicado);
         }
-
         /* Emails adicionais */
         if(empty($lista->emails_adicionais)) {
             $emails_adicionais = [];
@@ -61,7 +60,6 @@ class Mailman
         $emails_unsubscribed = array_column($emails_unsubscribed, 'email');
         $emails_updated = array_diff($emails_updated,$emails_unsubscribed);
 
-
         /* Emails allowed não podem fazer parte das listas */
         $emails_allowed = explode(',',$lista->emails_allowed);
         $emails_updated = array_diff($emails_updated,$emails_allowed);
@@ -70,14 +68,11 @@ class Mailman
         $emails_updated = array_map( 'trim', $emails_updated );
         $emails_updated = array_unique($emails_updated);
 
-        $remove = $mailman->getMemberlist();
-        $mailman->removeMembers($remove);
-
         if(!empty($emails_updated)) {
-            $emails_chunk = array_chunk($emails_updated, 1000);
-            foreach ( $emails_chunk as $emails ){
-                $mailman->addMembers($emails);
-            }
+            $emails_added = $mailman->syncMembers($emails_updated);
+        } else {
+            $remove = $mailman->getMemberlist();
+            $mailman->removeMembers($remove);
         }
         /* Salvamos um cópia dos emails da última sincronização na lista */
         $lista->emails = implode(',',$emails_updated);
