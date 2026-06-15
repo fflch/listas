@@ -1,0 +1,51 @@
+services:
+  listas:
+    build: .
+    container_name: listas
+    ports:
+      - "8000:80"
+    depends_on:
+      - mariadb
+    networks:
+      - listas-network
+    volumes:
+      - ./:/var/www/html
+    environment:
+      HOME: /tmp
+    user: "${UID:-1000}:${GID:-1000}"
+
+  mariadb:
+    image: mariadb:11
+    container_name: listas_mariadb
+    restart: always
+    environment:
+      MYSQL_DATABASE: listas
+      MYSQL_USER: listas
+      MYSQL_PASSWORD: listas
+      MYSQL_ROOT_PASSWORD: listas
+    networks:
+      - listas-network
+
+  selenium:
+    image: selenium/standalone-chrome
+    container_name: listas_selenium
+    ports:
+      - "7900:7900" # VNC (pra ver o browser rodando)
+    networks:
+      - listas-network
+    shm_size: 2gb
+
+  senhaunica-faker:
+    image: uspdev/senhaunica-faker
+    container_name: listas_senhaunica-faker
+    ports:
+      - "3141:3141"
+    environment:
+          - APP_URL=http://auth.local:3141
+    networks:
+      listas-network:
+        aliases:
+          - auth.local
+
+networks:
+  listas-network:
