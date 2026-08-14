@@ -1,5 +1,5 @@
 services:
-  litas:
+  listas:
     build: .
     container_name: listas
     ports:
@@ -7,7 +7,7 @@ services:
     depends_on:
       - mariadb
     networks:
-      - litas-network
+      - listas-network
     volumes:
       - ./:/var/www/html
     environment:
@@ -26,7 +26,7 @@ services:
     volumes:
       - mariadb_data:/var/lib/mysql
     networks:
-      - litas-network
+      - listas-network
 
   selenium:
     image: selenium/standalone-chrome
@@ -34,7 +34,7 @@ services:
     ports:
       - "7900:7900" # VNC (pra ver o browser rodando)
     networks:
-      - litas-network
+      - listas-network
     shm_size: 2gb
   
   senhaunica-faker:
@@ -45,12 +45,12 @@ services:
     environment:
           - APP_URL=http://auth.local:3141
     networks:
-      litas-network:
+      listas-network:
         aliases:
           - auth.local
 
 networks:
-  litas-network:
+  listas-network:
 
 volumes:
   mariadb_data:
