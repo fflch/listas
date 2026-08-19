@@ -49,6 +49,15 @@ services:
         aliases:
           - auth.local
 
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: listas__mailpit
+    ports:
+      - "1025:1025"   # SMTP
+      - "8025:8025"   # Interface Web
+    networks:
+      - listas-network
+
 networks:
   listas-network:
 
