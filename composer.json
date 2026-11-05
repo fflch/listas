@@ -16,12 +16,13 @@
     "require": {
         "php": "^8.1.0",
         "doctrine/dbal": "^3.0",
+        "fflch/mailmanapi": "dev-master",
         "guzzlehttp/guzzle": "^7.8.2",
         "laravel/framework": "^12.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^4.0",
+        "league/flysystem-aws-s3-v3": "^3.0",
         "rap2hpoutre/laravel-log-viewer": "^2.5",
-        "fflch/mailmanapi": "dev-master",
         "uspdev/laravel-usp-theme": "^2.0",
         "uspdev/replicado": "^1.5",
         "uspdev/senhaunica-socialite": "^4.0"
